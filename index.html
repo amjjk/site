@@ -1,593 +1,295 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+
     <title>A.M.J.J.K - Associação de Moradores do Jardim John Kennedy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: 'Merriweather', serif; 
-            /* ======================================================== */
-            /* ⬇️   AQUI: TROQUE A IMAGEM DE FUNDO DO SITE   ⬇️         */
-            /* ======================================================== */
-            background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; 
-            overflow-y: auto;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        /* --- ESTILOS DO SPLASH SCREEN (MANTIDOS) --- */
-        .splash-screen {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
-            text-align: center; color: white; transition: opacity 1s ease-in-out; position: fixed;
-            top: 0; left: 0; width: 100%; z-index: 100;
-            background-image: url('https://raw.githubusercontent.com/jardimjohnkennedy/amjjk/refs/heads/main/baner_patrocinio.png');
-            background-size: cover; background-position: center;
-        }
-        .splash-screen.hidden { opacity: 0; pointer-events: none; }
-        .image-container { width: 150px; height: 150px; position: relative; }
-        .blinking-logo { width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; }
-        .blinking-logo.hidden { display: none; }
-        
-        /* Ocultar scrollbars */
-        .overflow-y-auto::-webkit-scrollbar, .overflow-x-auto::-webkit-scrollbar { display: none; }
-        .overflow-y-auto, .overflow-x-auto { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* --- BOTÕES E CARDS --- */
-        .menu-button {
-            @apply text-base font-medium text-white hover:text-gray-200 transition-colors duration-200;
-            font-family: 'Inter', sans-serif; 
-        }
-        .mobile-menu-button {
-             @apply block w-auto text-center py-3 px-6 text-xl font-bold text-white hover:bg-white/20 rounded-md;
-             font-family: 'Inter', sans-serif;
-        }
-        
-        .back-button {
-            @apply mb-8 inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-5 sm:px-6 rounded-lg transition-colors text-sm sm:text-base;
-            font-family: 'Inter', sans-serif;
-        }
-        .see-all-button {
-            @apply mt-8 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base;
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-primary {
-            @apply inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .content-card {
-            @apply bg-white p-4 rounded-lg shadow-md transition-shadow hover:shadow-lg;
-        }
-        .news-card-summary {
-             @apply bg-white rounded-lg shadow-md overflow-hidden transition-shadow hover:shadow-lg;
-        }
-        
-        h1, h2, h3 {
-            font-weight: 900; 
-        }
-    </style>
+    <meta name="description" content="Site da Associação de Moradores do Jardim John Kennedy, Ibiporã-PR.">
+    <meta name="keywords" content="amjjk, jardim john kennedy, ibiporã, associação de moradores">
+
+    <meta property="og:title" content="A.M.J.J.K - Associação de Moradores">
+    <meta property="og:site_name" content="A.M.J.J.K">
+    <meta property="og:url" content="https://www.seusite.com.br"> <meta property="og:image" content="https://lh3.googleusercontent.com/d/1HDny0pzKqhZo4MPIFITx-cNYKfHR2lKJ"> <meta property="og:locale" content="pt_BR">
+    <meta property="og:type" content="article">
+    <link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="img/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="img/favicon/site.webmanifest" />
+    <link href="css/owl.carousel.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 </head>
-<body class="text-gray-800">
-
-    <div id="splashScreen" class="splash-screen">
-        <div class="image-container">
-            <img id="logo1" src="https://raw.githubusercontent.com/jardimjohnkennedy/amjjk/refs/heads/main/brasao_1.png" alt="Logo 1" class="blinking-logo">
-            <img id="logo2" src="https://raw.githubusercontent.com/jardimjohnkennedy/amjjk/refs/heads/main/brasao_2.png" alt="Logo 2" class="blinking-logo hidden">
+<body>
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     </div>
-
-    <div id="mainContent" class="hidden">
-        
-        <nav class="sticky top-0 w-full bg-[#3ea7b5] shadow-md z-50 py-4 px-6">
-            <div class="max-w-6xl mx-auto flex justify-between items-center">
-                <span class="text-xl font-bold text-white" style="font-family: 'Inter', sans-serif;">A.M.J.J.K.</span>
-                <button id="menuToggle" class="text-white p-2 rounded-md hover:bg-white/20">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
-        </nav>
-        
-        <div id="mobileMenu" class="hidden fixed top-0 left-0 right-0 bottom-0 bg-[#3ea7b5] z-50 p-4">
-            <button id="menuClose" class="absolute top-6 right-6 text-white p-2 rounded-md hover:bg-white/20">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-            <div class="flex flex-col items-center justify-center h-full space-y-4">
-                <button onclick="showOverlay('newsOverlay')" class="mobile-menu-button">Notícias</button>
-                <button onclick="showOverlay('agendaOverlay')" class="mobile-menu-button">Agenda e Eventos</button>
-                <button onclick="showOverlay('archiveOverlay')" class="mobile-menu-button">Acervo Digital</button>
-                <button onclick="showOverlay('utilitiesOverlay')" class="mobile-menu-button">Utilidades</button>
-                <button onclick="showOverlay('apoiadoresOverlay')" class="mobile-menu-button">Apoiadores</button>
-            </div>
-        </div>
-        
-        <header class="py-12 sm:py-16 md:py-20 px-6 text-center bg-cover bg-center" style="background-image: url('https://SUA-IMAGEM-PARA-O-TOPO-VEM-AQUI.jpg');">
-            <div class="max-w-4xl mx-auto">
-                <img src="https://raw.githubusercontent.com/jardimjohnkennedy/amjjk/refs/heads/main/logo.png" alt="Brasão da A.M.J.J.K" class="w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto object-cover">
-            </div>
-        </header>
-
-        <section class="py-12 md:py-16 px-6 lg:px-8 bg-[#c6fac3]">
-            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                <div class="bg-gray-100 p-6 sm:p-8 rounded-lg shadow-lg"> 
-                    <h2 class="text-2xl sm:text-3xl lg:text-4xl text-gray-900 mb-6">Nossa História</h2>
-                    <blockquote class="text-xl sm:text-2xl font-semibold text-gray-700 italic border-l-4 border-blue-500 pl-4 sm:pl-6">
-                        "O Jardim John Kennedy se destaca como um dos bairros mais antigos e tradicionais de Ibiporã, no Paraná."
-                    </blockquote>
-                </div>
-                <div class="text-gray-700 space-y-4 text-base md:text-lg">
-                    <p>Com uma história rica e uma comunidade engajada, o bairro representa a união perfeita entre o desenvolvimento histórico do município e a contínua busca por qualidade de vida para seus moradores.</p>
-                    <p>Acompanhando o crescimento de Ibiporã, o bairro tem sido palco de constantes melhorias. Olhando para o futuro, em outubro de 2025, o bairro se prepara para receber um novo e moderno complexo de lazer, com a construção de uma quadra poliesportiva, playground e pista de caminhada.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-12 md:py-16 px-6 lg:px-8">
-            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
-                
-                <div class="bg-[#fcbea9] p-6 sm:p-8 rounded-lg shadow-lg">
-                    <h2 class="text-3xl sm:text-4xl text-gray-900 mb-6">Agenda e Eventos</h2>
-                    <p class="text-lg text-gray-700 mb-8">Fique por dentro do que acontece no bairro.</p>
-                    <h3 class="text-2xl sm:text-3xl text-gray-900 mb-4">Próxima Agenda</h3>
-                    <div id="upcomingGames" class="space-y-4 mb-8"></div>
-                    <h3 class="text-2xl sm:text-3xl text-gray-900 mb-4">Eventos Recentes</h3>
-                    <div id="recentResults" class="space-y-4"></div>
-                    <button onclick="showOverlay('agendaOverlay')" class="see-all-button">Ver Agenda Completa</button>
-                </div>
-                
-                <div class="bg-[#fceda9] p-6 sm:p-8 rounded-lg shadow-lg">
-                    <h2 class="text-3xl sm:text-4xl text-gray-900 mb-6">Últimas Notícias</h2>
-                    <div id="fullNews" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
-                    <button onclick="showOverlay('newsOverlay')" class="see-all-button">Ver Todas as Notícias</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-12 md:py-16 px-6 lg:px-8 bg-[#a9fced] text-center">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-3xl sm:text-4xl text-gray-900 mb-4">Nossa Diretoria</h2>
-                <p class="text-lg text-gray-700 mb-12 max-w-2xl mx-auto">Conheça as pessoas que representam e trabalham pela nossa comunidade.</p>
-                <div id="boardContainer" class="flex overflow-x-auto gap-6 sm:gap-8 pb-4 -mx-6 px-6 sm:mx-0 sm:px-0"></div>
-            </div>
-        </section>
-
-        <section class="py-16 sm:py-20 px-6 bg-gray-800 text-white">
-            <div class="max-w-4xl mx-auto text-center">
-                <blockquote class="text-2xl sm:text-3xl lg:text-4xl font-semibold italic">
-                    "A força da comunidade é personificada por sua atuante Associação de Moradores, que historicamente tem sido a voz da população na busca por melhorias."
-                </blockquote>
-            </div>
-        </section>
-        
-        <section class="py-12 md:py-16 px-6 lg:px-8 bg-[#a9d3fc]">
-            <div class="max-w-6xl mx-auto">
-                <h3 class="text-3xl sm:text-4xl text-gray-900 mb-8 text-center">Utilidades do Bairro</h3>
-                <div id="utilitiesHomeContainer" class="flex overflow-x-auto gap-6 sm:gap-8 pb-4 -mx-6 px-6 sm:mx-0 sm:px-0">
-                    </div>
-
-            </div>
-        </section>
-
-        <footer class="bg-[#7ef728] text-gray-900 py-16 px-6 lg:px-8">
-            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
-                <div>
-                    <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-900">Entre em Contato</h3>
-                    <p class="text-base md:text-lg">Para informação, reclamação ou denúncia, entre em contato:</p>
-                    <div class="flex items-center space-x-4 mt-6">
-                        <a href="https://wa.me/554399597429" target="_blank" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-colors" style="font-family: 'Inter', sans-serif;">
-                            Abrir WhatsApp
-                        </a>
-                        <a href="https://www.instagram.com/a.m.j_johnkennedy/?__pwa=1#" target="_blank" class="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg transition-colors" style="font-family: 'Inter', sans-serif;">
-                            Instagram
-                        </a>
+    <header class="header-area">
+        <div class="top-header-area">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="logo" style="min-width: 446px;">
+                            <a href="index.html" title="Home"><img src="https://lh3.googleusercontent.com/d/1HDny0pzKqhZo4MPIFITx-cNYKfHR2lKJ" alt="Brasão da A.M.J.J.K" style="max-height: 80px;"></a>
+                        </div>
+                        <div class="top-contact-info d-flex align-items-center">
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" target="_blank" title="Localização">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i> <span>Jardim John Kennedy, Ibiporã - PR, Brasil</span>
+                            </a>
+                            <a href="https://wa.me/554399597429" data-toggle="tooltip" data-placement="bottom" target="_blank" title="Fale conosco" style="min-width: 136px;">
+                                <i class="fa fa-whatsapp" aria-hidden="true"></i> <span>(43) 99959-7429</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-gray-900">Localização</h3>
-                    <p class="text-gray-700 mb-2 text-base md:text-lg">Jardim John Kennedy</p>
-                    <p class="text-gray-700 mb-6 text-base md:text-lg">Ibiporã - PR, Brasil</p>
-                    <p class="text-sm text-gray-700">Desenvolvido por: A.Yoshi</p>
+            </div>
+        </div>
+        <div class="credit-main-menu" id="sticker">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <nav class="classy-navbar justify-content-between" id="creditNav">
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+                        <div class="classy-menu">
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+                            <div class="classynav">
+                                <ul><li><a href="index.html" target="_self" title="HOME">HOME</a></li>
+                                    <li><a href="sobre.html" target="_self" title="História da Presidência">SOBRE NÓS</a></li>
+                                    <li><a href="bairro.html" target="_self" title="História do Bairro">O BAIRRO</a></li>
+                                    <li><a href="noticias.html" target="_self" title="NOTÍCIAS">NOTÍCIAS</a></li>
+                                    <li><a href="servicos.html" target="_self" title="SERVIÇOS E UTILIDADES">SERVIÇOS</a></li>
+                                </ul></div>
+                        </div>
+                        <div class="contact">
+                            <a href="apoiadores.html" class="btn associado-btn mt-20" target="_blank" title="Apoiadores (Nova Janela)"><i class="fa fa-star"></i> Apoiadores</a>
+                        </div>
+                    </nav>
                 </div>
             </div>
-        </footer>
-    </div>
-
-
-    <div id="newsOverlay" class="hidden min-h-screen bg-[#fceda9] p-6 md:p-10 lg:p-16">
-        <button onclick="hideOverlays()" class="back-button">← Voltar</button>
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl text-gray-900 mb-8 text-center">Todas as Notícias</h2>
-            <div id="newsOverlayContainer" class="space-y-6"></div>
         </div>
-    </div>
-
-    <div id="agendaOverlay" class="hidden min-h-screen bg-[#fcbea9] p-6 md:p-10 lg:p-16">
-        <button onclick="hideOverlays()" class="back-button">← Voltar</button>
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl text-gray-900 mb-8 text-center">Agenda e Eventos</h2>
-            <h3 class="text-2xl sm:text-3xl text-gray-900 mb-4">Próxima Agenda</h3>
-            <div id="agendaOverlayContainer" class="space-y-4 mb-8"></div>
-            <h3 class="text-2xl sm:text-3xl text-gray-900 mb-4">Eventos Recentes</h3>
-            <div id="resultsOverlayContainer" class="space-y-4"></div>
-        </div>
-    </div>
-
-    <div id="archiveOverlay" class="hidden min-h-screen bg-gray-100 p-6 md:p-10 lg:p-16">
-        <button onclick="hideOverlays()" class="back-button">← Voltar</button>
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl text-gray-900 mb-8 text-center">Acervo Digital</h2>
-            <div id="archiveOverlayContainer" class="space-y-4"></div>
-        </div>
-    </div>
-
-    <div id="utilitiesOverlay" class="hidden min-h-screen bg-[#a9d3fc] p-6 md:p-10 lg:p-16">
-        <button onclick="hideOverlays()" class="back-button">← Voltar</button>
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl text-gray-900 mb-8 text-center">Utilidades</h2>
-            <div id="utilitiesOverlayContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-        </div>
-    </div>
-
-    <div id="apoiadoresOverlay" class="hidden min-h-screen bg-[#a9fced] p-6 md:p-10 lg:p-16">
-        <button onclick="hideOverlays()" class="back-button">← Voltar</button>
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl text-gray-900 mb-8 text-center">Apoiadores</h2>
-            <div id="apoiadoresOverlayContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    </header>
+    <main>
+        
+        <section class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url('https://lh3.googleusercontent.com/d/1X_R6Cn1B-zX0Eq5PFaEUvw5uUnMSWnRE');">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <div class="breadcrumb-content text-center">
+                            <h2 class="page-title">A.M.J.J.K.</h2>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb justify-content-center">
+                                    <li class="breadcrumb-item">Associação de Moradores do Jardim John Kennedy</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-        // Configuração do Firebase (mantida)
-        const firebaseConfig = {
-            apiKey: "AIzaSyD1D5gRg9bkkeyVcJeizFPb24fnASueVvo",
-            authDomain: "amjjk-d8656.firebaseapp.com",
-            projectId: "amjjk-d8656",
-            storageBucket: "amjjk-d8656.appspot.com",
-            messagingSenderId: "202877045569",
-            appId: "1:202877045569:web:3b4f713d291ebc0185efc0",
-            measurementId: "G-HCHPVET393"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        // --- LÓGICA DE NAVEGAÇÃO (Mantida) ---
-        const mainContent = document.getElementById('mainContent');
-        const allOverlays = document.querySelectorAll('#newsOverlay, #agendaOverlay, #archiveOverlay, #utilitiesOverlay, #apoiadoresOverlay');
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuClose = document.getElementById('menuClose'); 
-
-        const setBodyScroll = (isLocked) => {
-            document.body.style.overflow = isLocked ? 'hidden' : 'auto';
-        };
-
-        if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-                mobileMenu.classList.remove('hidden');
-                setBodyScroll(true); 
-            });
-        }
-
-        if (menuClose) {
-            menuClose.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                setBodyScroll(false); 
-            });
-        }
-
-        window.showOverlay = (overlayId) => {
-            mainContent.classList.add('hidden');
-            allOverlays.forEach(overlay => {
-                if (overlay.id === overlayId) {
-                    overlay.classList.remove('hidden');
-                } else {
-                    overlay.classList.add('hidden');
-                }
-            });
-            mobileMenu.classList.add('hidden'); 
-            setBodyScroll(false); 
-            window.scrollTo(0, 0); 
-        }
-
-        window.hideOverlays = () => {
-            allOverlays.forEach(overlay => overlay.classList.add('hidden'));
-            mainContent.classList.remove('hidden');
-            mobileMenu.classList.add('hidden'); 
-            setBodyScroll(false); 
-            window.scrollTo(0, 0); 
-        }
-        
-        // Função utilitária (Mantida)
-        function formatDateTime(isoString) {
-            if (!isoString) return '';
-            const date = new Date(isoString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            return `${day}/${month} - ${hours}:${minutes}`;
-        }
-
-        // --- FUNÇÕES DE RENDERIZAÇÃO ---
-        
-        async function renderBoard() {
-            // ... (código idêntico ao anterior)
-            const container = document.getElementById('boardContainer');
-            if (!container) return;
-            try {
-                const snapshot = await get(ref(database, 'board'));
-                if (!snapshot.exists()) {
-                    container.innerHTML = '<p>Nenhum membro da diretoria encontrado.</p>';
-                    return;
-                }
-                const members = Object.values(snapshot.val());
-                container.innerHTML = members.map(p => {
-                    const memberCardContent = `
-                        <img src="${p.image}" alt="${p.name}" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover mb-4 shadow-lg border-4 border-white">
-                        <h4 class="text-base md:text-lg font-bold text-gray-900" style="font-family: 'Inter', sans-serif;">${p.name}</h4>
-                        <p class="text-sm md:text-base text-gray-600">${p.role}</p>
-                    `;
-                    const cardClasses = "flex flex-col items-center text-center flex-shrink-0 w-40 sm:w-48";
-                    if (p.instagram && p.instagram.trim() !== '') {
-                        return `<a href="${p.instagram}" target="_blank" class="${cardClasses} transition-transform transform hover:scale-105">${memberCardContent}</a>`;
-                    } else {
-                        return `<div class="${cardClasses}">${memberCardContent}</div>`;
-                    }
-                }).join('');
-            } catch (error) {
-                console.error("Erro ao carregar diretoria:", error);
-                container.innerHTML = '<p class="text-red-500">Falha ao carregar diretoria.</p>';
-            }
-        }
-
-        function renderNews(containerId, newsArray, isSummary = false) {
-            // ... (código idêntico ao anterior)
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            if (newsArray.length === 0) {
-                 container.innerHTML = '<p class="text-gray-600">Nenhuma notícia recente.</p>';
-                 return;
-            }
-            container.innerHTML = newsArray.map(news => {
-                if (isSummary) {
-                    return `
-                        <div class="news-card-summary">
-                            <img src="${news.image}" alt="Notícia" class="w-full h-40 object-cover">
-                            <div class="p-4">
-                                <span class="text-xs text-gray-500">${news.date.split('-').reverse().join('/')}</span>
-                                <h3 class="text-base font-bold text-gray-900 mt-1" style="font-family: 'Inter', sans-serif;">${news.title}</h3>
+            </div>
+        </section>
+        <section class="about-area section-padding-100-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="about-content-area mb-100 wow fadeInUp" data-wow-delay="100ms">
+                            <div class="section-heading">
+                                <div class="line"></div>
+                                <p>Conheça</p>
+                                <h2>Nossa História</h2>
+                            </div>
+                            <blockquote class="text-xl sm:text-2xl font-semibold text-gray-700 italic border-l-4 border-blue-500 pl-4 sm:pl-6" style="font-size: 1.25rem; font-style: italic; border-left: 4px solid #3b82f6; padding-left: 1.5rem; color: #4a5568; font-weight: 600;">
+                                "O Jardim John Kennedy se destaca como um dos bairros mais antigos e tradicionais de Ibiporã, no Paraná."
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="about-content-area mb-100 wow fadeInUp" data-wow-delay="300ms">
+                            <p style="margin-top: 50px; font-size: 1.1rem; color: #555;">Com uma história rica e uma comunidade engajada, o bairro representa a união perfeita entre o desenvolvimento histórico do município e a contínua busca por qualidade de vida para seus moradores.</p>
+                            <p style="font-size: 1.1rem; color: #555;">Acompanhando o crescimento de Ibiporã, o bairro tem sido palco de constantes melhorias. Olhando para o futuro, em outubro de 2025, o bairro se prepara para receber um novo e moderno complexo de lazer, com a construção de uma quadra poliesportiva, playground e pista de caminhada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="services-area section-padding-100-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-heading text-center mb-100 wow fadeInUp" data-wow-delay="100ms">
+                            <div class="line"></div>
+                            <p>Fique por dentro</p>
+                            <h2>A Vida do Bairro</h2>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="single-service-area d-flex mb-100 wow fadeInUp" data-wow-delay="200ms">
+                            <div class="icon">
+                                <i class="fa fa-newspaper-o"></i>
+                            </div>
+                            <div class="text">
+                                <a class="linkservicos" href="noticias.html" target="_blank" title="Ver todas as Notícias (Nova Janela)">
+                                <h5>Últimas Notícias</h5>
+                                <p>Reunião define novas metas para 2025.</p>
+                                </a>
                             </div>
                         </div>
-                    `;
-                } else {
-                    return `
-                        <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-                            <img src="${news.image}" alt="Notícia" class="w-full h-40 sm:h-48 md:h-56 object-cover rounded-lg mb-4">
-                            <span class="text-xs text-gray-500">${news.date.split('-').reverse().join('/')}</span>
-                            <h3 class="text-lg md:text-xl font-bold mb-2 text-gray-900">${news.title}</h3>
-                            <p class="text-gray-700 text-sm md:text-base">${news.text}</p>
+                    </div>
+                     <div class="col-12 col-md-6 col-lg-4">
+                        <div class="single-service-area d-flex mb-100 wow fadeInUp" data-wow-delay="200ms">
+                            <div class="icon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <div class="text">
+                                <a class="linkservicos" href="agenda.html" target="_blank" title="Ver Agenda Completa (Nova Janela)">
+                                <h5>Agenda e Eventos</h5>
+                                <p>Próximo Jogo: 30/11 - Time A vs Time B.</p>
+                                </a>
+                            </div>
                         </div>
-                    `;
-                }
-            }).join('');
-        }
-        
-        function renderGames(containerId, games) {
-            // ... (código idêntico ao anterior)
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            if (games.length === 0) {
-                 container.innerHTML = '<p class="text-gray-600">Nenhum item na agenda.</p>';
-                 return;
-            }
-            container.innerHTML = games.map(game => `
-                <div class="content-card">
-                    <p class="text-sm font-semibold text-blue-600">${formatDateTime(game.date)}</p>
-                    <h3 class="text-base sm:text-lg font-bold mt-1 mb-2 text-gray-900">${game.teams}</h3>
-                    <p class="text-sm text-gray-600 mb-3">${game.location}</p>
-                    <a href="${game.mapLink}" target="_blank" class="btn-primary">Ver Local</a>
+                    </div>
+                     <div class="col-12 col-md-6 col-lg-4">
+                        <div class="single-service-area d-flex mb-100 wow fadeInUp" data-wow-delay="200ms">
+                            <div class="icon">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div class="text">
+                                <a class="linkservicos" href="diretoria.html" target="_blank" title="Conheça a Diretoria (Nova Janela)">
+                                <h5>Nossa Diretoria</h5>
+                                <p>Conheça as pessoas que trabalham pela comunidade.</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            `).join('');
-        }
-
-        function renderResults(containerId, results) {
-            // ... (código idêntico ao anterior)
-             const container = document.getElementById(containerId);
-            if (!container) return;
-             if (results.length === 0) {
-                 container.innerHTML = '<p class="text-gray-600">Nenhum evento recente.</p>';
-                 return;
-            }
-            container.innerHTML = results.map(result => `
-                <div class="content-card">
-                    <p class="text-sm font-semibold text-blue-600">${formatDateTime(result.date)}</p>
-                    <h3 class="text-lg sm:text-xl font-bold mt-1 mb-2 text-gray-900">${result.match}</h3>
-                    <p class="text-sm text-gray-600 mb-3">${result.location}</p>
-                    <a href="${result.mapLink}" target="_blank" class="btn-primary">Ver Local</a>
+            </div>
+        </section>
+        <section class="call-to-action-area section-padding-100 bg-img bg-overlay jarallax" style="background-image: url(img/bg-img/1.jpg);"> <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="call-to-action-content text-center">
+                            <div class="call-to-action-heading">
+                                <h2>"A força da comunidade é personificada por sua atuante Associação de Moradores, que historicamente tem sido a voz da população na busca por melhorias."</h2>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            `).join('');
-        }
+            </div>
+        </section>
+        </main>
 
-        function renderArchive() {
-            // ... (código idêntico ao anterior)
-            const archiveData = [
-                { name: 'Fotos e Vídeos', url: 'https://drive.google.com/drive/folders/1MPieySZltQ69euP81L9o2V08wlC_4JQu?usp=drive_link' },
-                { name: 'Documentos', url: 'https://drive.google.com/drive/folders/1BNs1TjGhXATk8STdXLheeV3UIsTzaAkE?usp=drive_link' }
-            ];
-            const linkHTML = archiveData.map(link => `
-                <a href="${link.url}" target="_blank" class="block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg text-center transition-colors text-base sm:text-lg" style="font-family: 'Inter', sans-serif;">
-                    ${link.name}
+    <footer class="footer-area wow fadeInUp" data-wow-delay="200ms">
+        <div class="copywrite-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copywrite-text">
+                            <a href="#" target="_blank" title="Como chegar">Jardim John Kennedy - Ibiporã - PR, Brasil</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="copywrite-text">
+                            <li><a href="https://www.instagram.com/a.m.j_johnkennedy/?__pwa=1#" target="_blank" title="Instagram"><i class="fa fa-2x fa-instagram"></i></a></li>
+                            <li><a href="https://wa.me/554399597429" target="_blank" title="Whatsapp"><i class="fa fa-2x fa-whatsapp"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copywrite-text" style="color: white; opacity: 0.7; font-size: 0.9rem;">
+                            Desenvolvido por: A.Yoshi
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <link rel="stylesheet" href="css/boxwhatsapp.css">
+    <div class="wptwa-container wptwa-round-toggle-on-mobile wptwa-mobile-center wptwa-show" data-delay-time="0" data-inactive-time="0" data-scroll-length="0">
+        <div class="wptwa-box wptwa-js-ready" id="ocultardiv">
+            <div class="wptwa-description">
+                <p>Oi, tudo bem? Clique abaixo para conversar conosco pelo WhatsApp.</p>
+            </div>
+            <span class="wptwa-close"></span>
+            <div class="wptwa-people" style="max-height: 775px;">
+                <a href="https://wa.me/554399597429&text=Oi, tudo bem? Peguei esse WhatsApp no site." data-number="554399597429" class="wptwa-account wptwa-clearfix wptwa-no-image" data-auto-text="Oi, tudo bem? Peguei esse WhatsApp no site." data-ga-label="RECEPÇÃO" target="_blank">
+                    <div class="wptwa-face no-image">
+                        <img src="images/logogreenwhatsapp.png" />
+                    </div>
+                    <div class="wptwa-info">
+                        <span class="wptwa-title">A.M.J.J.K.</span>
+                        <span class="wptwa-name">Atendimento</span>
+                    </div>
                 </a>
-            `).join('');
-            document.getElementById('archiveOverlayContainer').innerHTML = linkHTML;
-        }
-
-        async function renderUtilities() {
-            // ... (código idêntico ao anterior)
-            const overlayContainer = document.getElementById('utilitiesOverlayContainer');
-            if (!overlayContainer) return;
-            try {
-                const snapshot = await get(ref(database, 'utilities'));
-                if (!snapshot.exists()) {
-                    overlayContainer.innerHTML = '<p class="text-sm text-gray-600">Nenhuma utilidade cadastrada.</p>';
-                    return;
-                }
-                const utilities = Object.values(snapshot.val());
-                overlayContainer.innerHTML = utilities.map(s => `
-                    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col">
-                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">${s.name}</h3>
-                        <p class="text-gray-700 mb-2 text-sm sm:text-base"><strong>Descrição:</strong> ${s.description}</p>
-                        <p class="text-gray-700 mb-2 text-sm sm:text-base"><strong>Endereço:</strong> ${s.address}</p>
-                        <p class="text-gray-700 mb-4 text-sm sm:text-base"><strong>Telefone:</strong> ${s.phone}</p>
-                        <a href="${s.link}" target="_blank" class="mt-auto btn-primary text-center">
-                            Acessar Link
-                        </a>
-                    </div>
-                `).join('');
-            } catch (error) {
-                 console.error("Erro ao carregar utilidades:", error);
-                 overlayContainer.innerHTML = '<p class="text-red-500 text-sm">Falha ao carregar.</p>';
-            }
-        }
-        
-        async function renderUtilitiesHome() {
-            const container = document.getElementById('utilitiesHomeContainer');
-            if (!container) return;
-            try {
-                const snapshot = await get(ref(database, 'utilities'));
-                if (!snapshot.exists()) {
-                    container.innerHTML = '<p class="text-gray-700 text-sm">Nenhuma utilidade cadastrada.</p>';
-                    return;
-                }
-                const utilities = Object.values(snapshot.val());
-                container.innerHTML = utilities.map(s => {
-                    // Conteúdo do card atualizado (Nome, Descrição, Endereço, Telefone)
-                    const cardContent = `
-                        <h4 class="text-base md:text-lg font-bold text-gray-900 mb-2 truncate" style="font-family: 'Inter', sans-serif;">${s.name}</h4>
-                        <p class="text-sm text-gray-600 mb-2 h-16 overflow-hidden">${s.description || ''}</p>
-                        <p class="text-sm text-gray-700 mb-1 truncate"><strong class="font-medium" style="font-family: 'Inter', sans-serif;">End:</strong> ${s.address || ''}</p>
-                        <p class="text-sm text-gray-700 truncate"><strong class="font-medium" style="font-family: 'Inter', sans-serif;">Tel:</strong> ${s.phone || ''}</p>
-                    `;
-                    // Card é um <button>, com altura fixa (h-52), e chama showOverlay
-                    const cardClasses = "flex flex-col text-left flex-shrink-0 w-64 h-52 bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer";
-                    // Card agora é um botão que abre o overlay de utilidades
-                    return `<button class="${cardClasses}" onclick="showOverlay('utilitiesOverlay')">${cardContent}</button>`;
-                }).join('');
-            } catch (error) {
-                    console.error("Erro ao carregar utilidades da home:", error);
-                    container.innerHTML = '<p class="text-red-500 text-sm">Falha ao carregar.</p>';
-            }
-        }
-
-        async function renderApoiadores() {
-            // ... (código idêntico ao anterior)
-            const overlayContainer = document.getElementById('apoiadoresOverlayContainer');
-            if (!overlayContainer) return;
-            try {
-                const snapshot = await get(ref(database, 'apoiadores'));
-                if (!snapshot.exists()) {
-                    overlayContainer.innerHTML = '<p class="text-sm text-gray-600">Nenhum apoiador cadastrado.</p>';
-                    return;
-                }
-                const apoiadores = Object.values(snapshot.val());
-                overlayContainer.innerHTML = apoiadores.map(s => `
-                    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
-                        <img src="${s.image}" alt="${s.name}" class="w-full h-32 object-contain mb-4 rounded-lg">
-                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">${s.name}</h3>
-                        <p class="text-gray-700 mb-4 text-sm sm:text-base flex-grow">${s.description}</p>
-                        <a href="${s.link}" target="_blank" class="mt-auto btn-primary text-center">
-                            Visitar Site / Rede Social
-                        </a>
-                    </div>
-                `).join('');
-            } catch (error) {
-                 console.error("Erro ao carregar apoiadores:", error);
-                 overlayContainer.innerHTML = '<p class="text-red-500 text-sm">Falha ao carregar.</p>';
-            }
-        }
-
-        // --- FUNÇÃO DE CARREGAMENTO E INICIALIZAÇÃO (Idênticas) ---
-        async function loadInitialData() {
-            try {
-                const [newsSnap, gamesSnap, resultsSnap] = await Promise.all([ 
-                    get(ref(database, 'news')), 
-                    get(ref(database, 'upcomingGames')), 
-                    get(ref(database, 'recentResults')) 
-                ]);
-
-                renderBoard();
-                renderArchive();
-                renderUtilities(); 
-                renderUtilitiesHome(); // Função atualizada
-                renderApoiadores(); 
-
-                if (newsSnap.exists()) {
-                    const newsResult = newsSnap.val();
-                    const newsData = Object.keys(newsResult).map(key => ({ id: key, ...newsResult[key] })).sort((a, b) => new Date(b.date) - new Date(a.date));
-                    renderNews('fullNews', newsData.slice(0, 4), true); 
-                    renderNews('newsOverlayContainer', newsData, false); 
-                } else {
-                    renderNews('fullNews', [], true);
-                    renderNews('newsOverlayContainer', [], false);
-                }
-                if (gamesSnap.exists()) {
-                    const games = Object.values(gamesSnap.val()).sort((a, b) => new Date(b.date) - new Date(a.date));
-                    renderGames('upcomingGames', games.slice(0, 3)); 
-                    renderGames('agendaOverlayContainer', games); 
-                } else {
-                    renderGames('upcomingGames', []);
-                    renderGames('agendaOverlayContainer', []);
-                }
-                if (resultsSnap.exists()) {
-                    const results = Object.values(resultsSnap.val()).sort((a, b) => new Date(b.date) - new Date(a.date));
-                    renderResults('recentResults', results.slice(0, 3)); 
-                    renderResults('resultsOverlayContainer', results); 
-                } else {
-                    renderResults('recentResults', []);
-                    renderResults('resultsOverlayContainer', []);
-                }
-            } catch (error) {
-                console.error("Erro ao carregar dados do Firebase:", error);
-                // ...
-            }
-        }
-
-        window.onload = () => {
-            const splashScreen = document.getElementById('splashScreen');
-            const logo1 = document.getElementById('logo1');
-            const logo2 = document.getElementById('logo2');
-
-            setInterval(() => { 
-                logo1.classList.toggle('hidden'); 
-                logo2.classList.toggle('hidden'); 
-            }, 1000);
-
-            setTimeout(() => {
-                splashScreen.classList.add('hidden');
-                mainContent.classList.remove('hidden'); 
-                loadInitialData();
-            }, 3000);
-        };
+            </div>
+        </div>
+        <div class="wptwa-toggle">
+            <span><i class="fa fa-whatsapp"></i> Vamos conversar no WhatsApp?</span>
+        </div>
+    </div>
+    <script>
+        (function ($) {
+            $(".wptwa-close").click(function(){
+                $(".wptwa-box").fadeOut("slow");
+            });
+            $(".wptwa-toggle").click(function(){
+                $(".wptwa-box").fadeIn("slow");
+            });
+        })(jQuery);
     </script>
-</body>
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="js/bootstrap/popper.min.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/plugins/plugins.js"></script>
+    <script src="js/active.js"></script>
+    <script type="text/javascript">
+    var owl = $('.owl-carousel');
+    owl.owlCarousel({
+        items:4,
+        loop:true,
+        margin:10,
+        autoplay:true,
+        autoplayTimeout:2500
+    });
+    </script>
+
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
+    <script async type="text/javascript" src="https://www.aciabrasiliense.com.br/js/popup/script.js"></script>
+    <link rel="stylesheet" href="https://www.aciabrasiliense.com.br/js/popup/style.css" />
+    <script type="text/javascript">
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//atualiza.aciabrasiliense.com.br/matomo/"; // ATUALIZE ESTA URL
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '1']); // ATUALIZE O ID
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-XXXXXXXX-X', 'auto'); // ATUALIZE SEU CÓDIGO AQUI
+      ga('send', 'pageview');
+    </script>
+    </body>
 </html>
