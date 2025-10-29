@@ -36,12 +36,12 @@
         .admin-form input[type="text"],
         .admin-form input[type="date"],
         .admin-form input[type="datetime-local"], 
-        .admin-form input[type="email"], /* Adicionado para Auth */
+        .admin-form input[type="email"],
         .admin-form input[type="password"],
         .admin-form textarea,
         .admin-form select {
             width: 100%; padding: 10px; border: 1px solid #666; border-radius: 5px; font-size: 1rem;
-            background-color: #555; color: #fff; box-sizing: border-box; /* Garante padding correto */
+            background-color: #555; color: #fff; box-sizing: border-box; 
         }
         .admin-form textarea { min-height: 100px; } 
         .admin-form .btn { background-color: #0d6efd; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; font-weight: bold; }
@@ -67,7 +67,7 @@
         #login-box label { color: #ccc; }
         #login-box input { background-color: #555; color: #fff; border: 1px solid #666; }
         #login-box p#login-error { color: #ff8a8a; font-weight: bold; } 
-        #login-box #logged-in-user { color: #a2d2ff; font-weight: bold; margin-bottom: 15px;} /* Mostra email logado */
+        #login-box #logged-in-user { color: #a2d2ff; font-weight: bold; margin-bottom: 15px;} 
 
         /* Badges "Em Breve" */
         .badge-em-breve { 
@@ -79,26 +79,13 @@
 <body>
 
     <div id="login-overlay">
-        <div id="login-box">
-            <h3>Login do Administrador</h3>
-            <p id="login-error" style="display:none; color: #ff8a8a;">Email ou Senha inválidos!</p> 
-            <p id="logged-in-user" style="display:none;"></p> 
-            
-            <div class="form-group login-fields"> 
-                <label for="login-email">Email:</label>
-                <input type="email" id="login-email"> 
-            </div>
-            <div class="form-group login-fields">
-                <label for="login-password">Senha:</label>
-                <input type="password" id="login-password"> 
-            </div>
-            
-            <button id="login-button" class="btn login-fields">Entrar</button>
-            <button id="logout-button" class="btn btn-danger" style="display:none;">Sair</button> 
-            
-            <p class="login-fields" style="color: #aaa; font-size: 0.8rem; margin-top: 20px; max-width: 300px;">
-                Use o email e senha cadastrados no Firebase.
-            </p>
+        <div id="login-box"> 
+            <h3>Login do Administrador</h3> 
+            <p id="login-error" style="display:none;">Login ou Senha inválidos!</p> 
+            <div class="form-group"> <label for="login-user">Usuário:</label> <input type="text" id="login-user" value="ayoshi"> </div> 
+            <div class="form-group"> <label for="login-pass">Senha:</label> <input type="password" id="login-pass" value="a1985"> </div> 
+            <button id="login-button" class="btn">Entrar</button> 
+            <p style="color: #aaa; font-size: 0.8rem; margin-top: 20px; max-width: 300px;"> <strong>Aviso:</strong> Este login é temporário e não é seguro. </p> 
         </div>
     </div>
 
@@ -114,8 +101,7 @@
                 <li><a href="#galeria" class="admin-menu-link"><i class="fa fa-picture-o"></i> Galeria</a></li>
                 <li><a href="#paginas" class="admin-menu-link"><i class="fa fa-file-text-o"></i> Páginas (Bairro/Home)</a></li>
                 <li><a href="#frases" class="admin-menu-link"><i class="fa fa-comment-o"></i> Frases (Home)</a></li>
-                <li><a href="#usuarios" class="admin-menu-link"><i class="fa fa-user-plus"></i> Administradores</a></li>
-            </ul>
+                </ul>
         </aside>
 
         <main class="admin-content">
@@ -126,12 +112,12 @@
                 <p>Use o menu ao lado para editar o conteúdo das páginas.</p>
                 
                 <div class="admin-form">
-                    <h3>Backup e Restauração <span class="badge-em-breve">Em Breve</span></h3>
-                    <p><strong>Aviso:</strong> Esta funcionalidade ainda não está ativada.</p>
-                    <button class="btn" id="btn-backup" disabled>Fazer Backup</button>
-                    <button class="btn-secondary" id="btn-restore" disabled>Restaurar Backup</button>
+                    <h3>Backup e Restauração</h3>
+                    <p>Clique no botão abaixo para baixar um arquivo `.json` com todos os dados do site.</p>
+                    <button class="btn" id="btn-backup">Fazer Backup (Baixar JSON)</button>
+                    <button class="btn-secondary" id="btn-restore">Instruções para Restaurar</button>
                      <p style="color: #aaa; font-size: 0.8rem; margin-top: 10px;">
-                        Recomendado fazer backup manual exportando JSON no console do Firebase.
+                        A restauração é feita manualmente no Console do Firebase para garantir a segurança.
                     </p>
                 </div>
             </section>
@@ -285,31 +271,32 @@
                 </table>
             </section>
             
-            <section id="usuarios" class="admin-section">
-                <h2><i class="fa fa-user-plus"></i> Gerenciar Administradores <span class="badge-em-breve">Em Breve</span></h2>
-                <p><strong>Esta funcionalidade requer o Firebase Authentication para ser segura.</strong></p>
-                <p>No momento, o único acesso é através do login configurado no Firebase.</p>
-                 <div class="admin-form">
-                    <h3 id="form-admin-titulo">Adicionar Novo Administrador (Desabilitado)</h3>
-                     <input type="hidden" id="admin-id">
-                     <div class="form-group"> <label for="admin-email">Email:</label> <input type="email" id="admin-email" disabled placeholder="Email do novo admin"> </div>
-                     <div class="form-group"> <label for="admin-senha">Senha Provisória:</label> <input type="password" id="admin-senha" disabled placeholder="Senha inicial"> </div>
-                     <button class="btn" id="btn-salvar-admin" disabled>Salvar Administrador</button>
-                 </div>
-                 <hr style="margin: 30px 0;">
-                 <h3>Administradores Cadastrados (Em Breve)</h3>
-                 <table class="admin-table">
-                    <thead> <tr> <th>Email</th> <th class="actions">Ações</th> </tr> </thead>
-                    <tbody id="admin-lista"> <tr><td colspan="2">Funcionalidade indisponível no momento.</td></tr> </tbody>
-                 </table>
-            </section>
-
-        </main>
+            </main>
     </div>
 
     <script> 
         document.addEventListener('DOMContentLoaded', () => { 
-            // Não mexer neste script, ele só controla a navegação visual do painel
+            console.log("Admin HTML Carregado. Configurando Login e Navegação...");
+            const loginOverlay = document.getElementById('login-overlay'); 
+            const loginButton = document.getElementById('login-button'); 
+            const loginError = document.getElementById('login-error'); 
+            const adminWrapper = document.querySelector('.admin-wrapper'); 
+            
+            // Login "falso" temporário
+            loginButton.addEventListener('click', () => { 
+                const user = document.getElementById('login-user').value; 
+                const pass = document.getElementById('login-pass').value; 
+                if (user === 'ayoshi' && pass === 'a1985') { 
+                    console.log("Login OK");
+                    loginOverlay.style.display = 'none'; 
+                    adminWrapper.style.display = 'flex'; 
+                } else { 
+                    console.warn("Login Falhou");
+                    loginError.style.display = 'block'; 
+                } 
+            }); 
+            
+            // Script de navegação das abas
             const menuLinks = document.querySelectorAll('.admin-menu-link'); 
             const sections = document.querySelectorAll('.admin-section'); 
             
@@ -338,9 +325,8 @@
         
         // Importar funções do Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, set, remove, query, orderByChild } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
-        // IMPORTAR FUNÇÕES DE AUTENTICAÇÃO
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+        // Adicionado "get" para o backup
+        import { getDatabase, ref, push, onValue, set, remove, query, orderByChild, get } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
 
         // SUA CONFIGURAÇÃO
         const firebaseConfig = { apiKey: "AIzaSyCAFbFIqzXC6qxgTWT6Mb5QNB-6ExCKswk", authDomain: "assoc-jjk.firebaseapp.com", projectId: "assoc-jjk", storageBucket: "assoc-jjk.firebasestorage.app", messagingSenderId: "912241957819", appId: "1:912241957819:web:91b11ec9aabf302717c29e", databaseURL: "https://assoc-jjk-default-rtdb.firebaseio.com" };
@@ -348,80 +334,68 @@
         try {
             const app = initializeApp(firebaseConfig);
             const database = getDatabase(app);
-            const auth = getAuth(app); // INICIALIZA AUTH
             console.log("Firebase Conectado!");
-
-            // --- LÓGICA DE AUTENTICAÇÃO FIREBASE (NOVO) ---
-            const loginOverlay = document.getElementById('login-overlay');
-            const loginEmailInput = document.getElementById('login-email');
-            const loginPasswordInput = document.getElementById('login-password');
-            const loginButton = document.getElementById('login-button');
-            const loginError = document.getElementById('login-error');
-            const adminWrapper = document.querySelector('.admin-wrapper');
-            const logoutButton = document.getElementById('logout-button'); 
-            const loggedInUserP = document.getElementById('logged-in-user'); 
-            const loginFields = document.querySelectorAll('.login-fields'); // Seleciona todos os elementos de login
-
-            loginButton.addEventListener('click', () => {
-                const email = loginEmailInput.value;
-                const password = loginPasswordInput.value;
-                loginError.style.display = 'none'; 
-                loginButton.disabled = true;
-                loginButton.innerText = "Entrando...";
-                
-                signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        console.log("Login OK:", userCredential.user.email);
-                        // onAuthStateChanged cuidará de mostrar/esconder
-                    })
-                    .catch((error) => {
-                        console.error("Erro no login:", error.code, error.message);
-                        loginError.innerText = "Email ou Senha inválidos!"; 
-                        if (error.code === 'auth/invalid-email') { loginError.innerText = "Formato de email inválido."; }
-                         else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') { loginError.innerText = "Email ou Senha inválidos!"; }
-                         else { loginError.innerText = "Erro ao tentar fazer login."; }
-                        loginError.style.display = 'block';
-                        loginButton.disabled = false;
-                        loginButton.innerText = "Entrar";
-                    });
-            });
-
-            logoutButton.addEventListener('click', () => {
-                signOut(auth).catch((error) => { console.error("Erro no logout:", error); alert("Erro ao tentar sair."); });
-            });
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    console.log("Usuário logado:", user.email);
-                    loginOverlay.style.display = 'none'; 
-                    adminWrapper.style.display = 'flex'; 
-                    // Mostra email e botão logout na caixa de login (ou mova para outro lugar)
-                    loggedInUserP.innerText = `Logado como: ${user.email}`;
-                    loggedInUserP.style.display = 'block';
-                    logoutButton.style.display = 'inline-block'; 
-                    // Esconde campos e botão de login
-                    loginFields.forEach(el => el.style.display = 'none'); 
-
-                } else {
-                    console.log("Usuário deslogado");
-                    loginOverlay.style.display = 'flex'; 
-                    adminWrapper.style.display = 'none'; 
-                    // Garante que campos de login estão visíveis e logout escondido
-                    loggedInUserP.style.display = 'none';
-                    logoutButton.style.display = 'none'; 
-                    loginFields.forEach(el => el.style.display = 'block'); // 'block' para label/input, 'inline-block' para botão se precisar
-                    loginButton.disabled = false;
-                    loginButton.innerText = "Entrar";
-                    loginPasswordInput.value = ""; // Limpa senha
-                    loginError.style.display = 'none'; // Esconde erro
-                }
-            });
-            // --- FIM DA AUTENTICAÇÃO ---
-
 
             // --- FUNÇÃO AJUDANTE FORMATAR DATA (Agenda) ---
             function formatarDataHora(isoString) { if (!isoString) return 'Sem data'; try { const data = new Date(isoString); const dia = String(data.getDate()).padStart(2, '0'); const mes = String(data.getMonth() + 1).padStart(2, '0'); const ano = data.getFullYear(); const hora = String(data.getHours()).padStart(2, '0'); const min = String(data.getMinutes()).padStart(2, '0'); return `${dia}/${mes}/${ano} às ${hora}:${min}`; } catch (e) { return isoString; } }
             
+            // --- MÓDULO DE BACKUP (NOVO) ---
+            try {
+                const btnBackup = document.getElementById('btn-backup');
+                const btnRestore = document.getElementById('btn-restore'); 
+
+                btnBackup.addEventListener('click', async () => {
+                    if (!confirm("Isso fará o download de todos os dados do site (notícias, agenda, etc.) em um único arquivo JSON. Deseja continuar?")) {
+                        return;
+                    }
+
+                    console.log("Iniciando backup...");
+                    btnBackup.disabled = true;
+                    btnBackup.innerText = "Preparando dados...";
+
+                    try {
+                        const dbRef = ref(database); // Pega a raiz do banco
+                        const snapshot = await get(dbRef); // Faz um 'get' de TUDO
+
+                        if (!snapshot.exists()) {
+                            alert("Não há dados no banco de dados para fazer backup.");
+                            return;
+                        }
+
+                        const backupData = snapshot.val();
+                        const dataStr = JSON.stringify(backupData, null, 2); // Formata o JSON
+                        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                        
+                        // Cria o link de download
+                        const dataISO = new Date().toISOString().split('T')[0]; // ex: 2025-10-29
+                        const nomeArquivo = `backup_amjjk_${dataISO}.json`;
+
+                        const linkDownload = document.createElement('a');
+                        linkDownload.href = URL.createObjectURL(dataBlob);
+                        linkDownload.download = nomeArquivo;
+                        document.body.appendChild(linkDownload); // Necessário para o Firefox
+                        linkDownload.click();
+                        document.body.removeChild(linkDownload); // Limpa
+
+                        alert("Backup concluído! Verifique seus downloads.");
+
+                    } catch (error) {
+                        console.error("Erro ao fazer backup:", error);
+                        alert("Erro ao fazer backup. Verifique o console (F12) e as regras de leitura do Firebase.");
+                    } finally {
+                        btnBackup.disabled = false;
+                        btnBackup.innerText = "Fazer Backup (Baixar JSON)";
+                    }
+                });
+                
+                // Explicação do Restore
+                btnRestore.addEventListener('click', () => {
+                    alert("A restauração de backup deve ser feita manualmente no Console do Firebase para evitar perda de dados.\n\n1. Vá ao Realtime Database.\n2. Clique nos 3 pontos (menu Mais).\n3. Selecione 'Importar JSON' e envie o arquivo de backup.");
+                });
+
+                console.log("Módulo Backup OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Backup:", e); }
+
             // --- MÓDULO DE NOTÍCIAS ---
             try {
                 const formNoticiaTitulo = document.getElementById('form-noticia-titulo'); const noticiaId = document.getElementById('noticia-id'); const noticiaTitulo = document.getElementById('noticia-titulo'); const noticiaData = document.getElementById('noticia-data'); const noticiaImagemUrl = document.getElementById('noticia-imagem-url');  const noticiaTexto = document.getElementById('noticia-texto'); const btnSalvarNoticia = document.getElementById('btn-salvar-noticia'); const btnCancelarEdicaoNoticia = document.getElementById('btn-cancelar-edicao-noticia'); const noticiasLista = document.getElementById('noticias-lista'); const noticiaPesquisar = document.getElementById('noticia-pesquisar'); const dbRefNoticias = ref(database, 'noticias'); let allNoticias = {};  let editandoNoticia = false; function resetarFormularioNoticia() { formNoticiaTitulo.innerText = "Adicionar Nova Notícia"; noticiaId.value = ""; noticiaTitulo.value = ""; noticiaData.value = ""; noticiaTexto.value = ""; noticiaImagemUrl.value = ""; btnCancelarEdicaoNoticia.style.display = "none"; editandoNoticia = false; } btnSalvarNoticia.addEventListener('click', async () => { const titulo = noticiaTitulo.value; const data = noticiaData.value; const texto = noticiaTexto.value; const imageUrl = noticiaImagemUrl.value; const id = noticiaId.value; if (!titulo) { alert('O Título é obrigatório.'); return; } btnSalvarNoticia.disabled = true; btnSalvarNoticia.innerText = "Salvando..."; const dadosNoticia = { titulo: titulo, data: data || "", texto: texto || "", imageUrl: imageUrl || "" }; try { if (editandoNoticia && id) { await set(ref(database, `noticias/${id}`), dadosNoticia); alert('Notícia atualizada com sucesso!'); } else { await push(dbRefNoticias, dadosNoticia); alert('Notícia salva com sucesso!'); } resetarFormularioNoticia(); } catch (error) { console.error("Erro ao SALVAR Noticia:", error); alert("Erro ao salvar notícia. Verifique as regras do Firebase."); } finally { btnSalvarNoticia.disabled = false; btnSalvarNoticia.innerText = "Salvar Notícia"; } }); function exibirNoticias(filtro = '') { noticiasLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allNoticias).sort((a, b) => new Date(allNoticias[b].data || 0) - new Date(allNoticias[a].data || 0)); if (chavesOrdenadas.length === 0) { noticiasLista.innerHTML = '<tr><td colspan="4">Nenhuma notícia cadastrada.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const noticia = allNoticias[key]; if (filtro && !noticia.titulo.toLowerCase().includes(filtroLowerCase)) { continue; } count++; const dataFormatada = noticia.data ? noticia.data.split('-').reverse().join('/') : 'Sem data'; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${noticia.imageUrl || 'https://via.placeholder.com/100x50.png?text=Sem+Img'}" alt="Imagem"></td> <td>${noticia.titulo}</td> <td>${dataFormatada}</td> <td> <button class="btn-secondary btn-editar-noticia" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-noticia" data-id="${key}">Excluir</button> </td> `; noticiasLista.appendChild(tr); } if (count === 0 && filtro) { noticiasLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefNoticias, orderByChild('data')), (snapshot) => { if (snapshot.exists()) { allNoticias = snapshot.val() || {}; exibirNoticias(noticiaPesquisar.value); } else { allNoticias = {}; noticiasLista.innerHTML = '<tr><td colspan="4">Nenhuma notícia cadastrada.</td></tr>'; } }, (error) => { console.error("Erro ao LER Notícias:", error); noticiasLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar notícias. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); noticiaPesquisar.addEventListener('keyup', () => exibirNoticias(noticiaPesquisar.value)); noticiasLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-noticia')) { if (confirm(`Tem certeza que deseja excluir a notícia "${allNoticias[id]?.titulo}"?`)) { try { await remove(ref(database, `noticias/${id}`)); alert('Notícia excluída!'); } catch (error) { alert("Erro ao excluir notícia."); } } } if (target.classList.contains('btn-editar-noticia')) { const noticia = allNoticias[id]; if (!noticia) return; formNoticiaTitulo.innerText = "Editar Notícia"; noticiaId.value = id; noticiaTitulo.value = noticia.titulo; noticiaData.value = noticia.data || ""; noticiaTexto.value = noticia.texto || ""; noticiaImagemUrl.value = noticia.imageUrl || ""; btnCancelarEdicaoNoticia.style.display = "inline-block"; editandoNoticia = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoNoticia.addEventListener('click', resetarFormularioNoticia);
@@ -467,17 +441,16 @@
         } catch (e) {
             console.error("FALHA CRÍTICA AO CONECTAR COM FIREBASE:", e);
             alert("Não foi possível conectar ao Firebase. Verifique a configuração 'firebaseConfig' no script e sua conexão com a internet.");
-            // Esconde o painel se a conexão falhar
+            // Força o logout visual se a conexão falhar
             const adminWrapper = document.querySelector('.admin-wrapper');
             if (adminWrapper) adminWrapper.style.display = 'none';
              const loginOverlay = document.getElementById('login-overlay');
-            if (loginOverlay) loginOverlay.style.display = 'flex'; // Mostra login de novo
+            if (loginOverlay) loginOverlay.style.display = 'flex'; 
             const loginError = document.getElementById('login-error');
              if (loginError) {
                  loginError.innerText = "Erro: Falha ao conectar ao Firebase.";
                  loginError.style.display = 'block';
              }
-
         }
     </script>
 </body>
