@@ -36,12 +36,12 @@
         .admin-form input[type="text"],
         .admin-form input[type="date"],
         .admin-form input[type="datetime-local"], 
-        .admin-form input[type="email"], /* Adicionado para Auth */
+        .admin-form input[type="email"], 
         .admin-form input[type="password"],
         .admin-form textarea,
         .admin-form select {
             width: 100%; padding: 10px; border: 1px solid #666; border-radius: 5px; font-size: 1rem;
-            background-color: #555; color: #fff; box-sizing: border-box; /* Garante padding correto */
+            background-color: #555; color: #fff; box-sizing: border-box; 
         }
         .admin-form textarea { min-height: 100px; } 
         .admin-form .btn { background-color: #0d6efd; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; font-weight: bold; }
@@ -83,7 +83,6 @@
             <h3>Login do Administrador</h3>
             <p id="login-error" style="display:none; color: #ff8a8a;">Email ou Senha inválidos!</p> 
             <p id="logged-in-user" style="display:none;"></p> 
-            
             <div class="form-group login-fields"> 
                 <label for="login-email">Email:</label>
                 <input type="email" id="login-email"> 
@@ -92,7 +91,6 @@
                 <label for="login-password">Senha:</label>
                 <input type="password" id="login-password"> 
             </div>
-            
             <button id="login-button" class="btn login-fields">Entrar</button>
             <button id="logout-button" class="btn btn-danger" style="display:none;">Sair</button> 
         </div>
@@ -108,9 +106,10 @@
                 <li><a href="#agenda" class="admin-menu-link"><i class="fa fa-calendar"></i> Agenda e Eventos</a></li>
                 <li><a href="#diretoria" class="admin-menu-link"><i class="fa fa-users"></i> Diretoria</a></li>
                 <li><a href="#galeria" class="admin-menu-link"><i class="fa fa-picture-o"></i> Galeria</a></li>
+                <li><a href="#apoiadores" class="admin-menu-link"><i class="fa fa-star"></i> Apoiadores</a></li>
                 <li><a href="#paginas" class="admin-menu-link"><i class="fa fa-file-text-o"></i> Páginas (Bairro/Home)</a></li>
                 <li><a href="#frases" class="admin-menu-link"><i class="fa fa-comment-o"></i> Frases (Home)</a></li>
-                </ul>
+            </ul>
         </aside>
 
         <main class="admin-content">
@@ -118,8 +117,6 @@
             <section id="dashboard" class="admin-section active">
                 <h2><i class="fa fa-tachometer"></i> Dashboard</h2>
                 <p>Bem-vindo ao painel de gerenciamento do site da A.M.J.J.K.</p>
-                <p>Use o menu ao lado para editar o conteúdo das páginas.</p>
-                
                 <div class="admin-form">
                     <h3>Backup e Restauração</h3>
                     <p>Clique no botão abaixo para baixar um arquivo `.json` com todos os dados do site.</p>
@@ -138,7 +135,7 @@
                     <input type="hidden" id="noticia-id"> 
                     <div class="form-group"> <label for="noticia-titulo">Título (Obrigatório):</label> <input type="text" id="noticia-titulo" placeholder="Título da notícia"> </div>
                     <div class="form-group"> <label for="noticia-data">Data:</label> <input type="date" id="noticia-data"> </div>
-                    <div class="form-group"> <label for="noticia-imagem-url">URL da Imagem (Endereço):</label> <input type="text" id="noticia-imagem-url" placeholder="https://.../imagem.jpg"> </div>
+                    <div class="form-group"> <label for="noticia-imagem-url">URL da Imagem (Endereço): https://lh3.googleusercontent.com/d/</label> <input type="text" id="noticia-imagem-url" placeholder="https://.../imagem.jpg"> </div>
                     <div class="form-group"> <label for="noticia-texto">Texto da Notícia:</label> <textarea id="noticia-texto" placeholder="Escreva a notícia completa aqui..."></textarea> </div>
                     <button class="btn" id="btn-salvar-noticia">Salvar Notícia</button>
                     <button class="btn-secondary" id="btn-cancelar-edicao-noticia" style="display:none;">Cancelar Edição</button>
@@ -208,8 +205,24 @@
                     <h3 id="form-diretoria-titulo">Adicionar Novo Membro</h3>
                     <input type="hidden" id="diretoria-id">
                     <div class="form-group"> <label for="diretoria-nome">Nome (Obrigatório):</label> <input type="text" id="diretoria-nome" placeholder="Nome completo do membro"> </div>
-                    <div class="form-group"> <label for="diretoria-cargo">Cargo (Obrigatório):</label> <input type="text" id="diretoria-cargo" placeholder="Ex: Presidente, Vice-Presidente, 1º Secretário..."> <small>Para ordenar corretamente, use os termos: Presidente, Vice-Presidente, 1º Secretário, 2º Secretário, Tesoureiro, Fiscais, Suplentes</small> </div>
-                    <div class="form-group"> <label for="diretoria-imagem-url">URL da Foto (3x4):</label> <input type="text" id="diretoria-imagem-url" placeholder="https://.../foto.jpg"> </div>
+                    
+                    <div class="form-group"> 
+                        <label for="diretoria-cargo">Cargo (Obrigatório):</label> 
+                        <select id="diretoria-cargo">
+                            <option value="">-- Selecione um cargo --</option>
+                            <option value="Presidente">Presidente</option>
+                            <option value="Vice-Presidente">Vice-Presidente</option>
+                            <option value="1º Secretário">1º Secretário</option>
+                            <option value="2º Secretário">2º Secretário</option>
+                            <option value="Tesoureiro">Tesoureiro</option>
+                            <option value="Conselho Fiscal">Conselho Fiscal</option>
+                            <option value="Suplente">Suplente</option>
+                            <option value="Associado">Associado</option>
+                            <option value="Colaborador">Colaborador</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group"> <label for="diretoria-imagem-url">URL da Foto (3x4): https://lh3.googleusercontent.com/d/</label> <input type="text" id="diretoria-imagem-url" placeholder="https://.../foto.jpg"> </div>
                     <div class="form-group"> <label for="diretoria-instagram">Link do Instagram (Opcional):</label> <input type="text" id="diretoria-instagram" placeholder="https://instagram.com/usuario"> </div>
                     <div class="form-group"> <label for="diretoria-descricao">Descrição Breve (Opcional):</label> <textarea id="diretoria-descricao" placeholder="Breve descrição sobre o membro..."></textarea> </div>
                     <button class="btn" id="btn-salvar-diretoria">Salvar Membro</button>
@@ -230,7 +243,7 @@
                     <h3 id="form-galeria-titulo">Adicionar Novo Álbum</h3>
                     <input type="hidden" id="galeria-id">
                     <div class="form-group"> <label for="galeria-titulo">Título (Obrigatório):</label> <input type="text" id="galeria-titulo" placeholder="Ex: Festa Junina 2025"> </div>
-                    <div class="form-group"> <label for="galeria-imagem-url">URL da Imagem de Capa (Obrigatório):</label> <input type="text" id="galeria-imagem-url" placeholder="https://.../capa_festa_junina.jpg"> </div>
+                    <div class="form-group"> <label for="galeria-imagem-url">URL da Imagem de Capa (Obrigatório): https://lh3.googleusercontent.com/d/</label> <input type="text" id="galeria-imagem-url" placeholder="https://.../capa_festa_junina.jpg"> </div>
                     <div class="form-group"> <label for="galeria-link">Link do Álbum (Google Drive, etc.) (Obrigatório):</label> <input type="text" id="galeria-link" placeholder="https://drive.google.com/..."> </div>
                     <div class="form-group"> <label for="galeria-descricao">Descrição (Opcional):</label> <textarea id="galeria-descricao" placeholder="Breve descrição sobre o álbum..."></textarea> </div>
                     <button class="btn" id="btn-salvar-galeria">Salvar Álbum</button>
@@ -245,6 +258,28 @@
                 </table>
             </section>
             
+            <section id="apoiadores" class="admin-section">
+                <h2><i class="fa fa-star"></i> Gerenciar Apoiadores</h2>
+                <div class="admin-form">
+                    <h3 id="form-apoiador-titulo">Adicionar Novo Apoiador</h3>
+                    <input type="hidden" id="apoiador-id">
+                    <div class="form-group"> <label for="apoiador-nome">Nome da Empresa/Pessoa (Obrigatório):</label> <input type="text" id="apoiador-nome" placeholder="Nome do apoiador"> </div>
+                    <div class="form-group"> <label for="apoiador-imagem-url">URL da Logo (Obrigatório):https://lh3.googleusercontent.com/d/</label> <input type="text" id="apoiador-imagem-url" placeholder="https://.../logo.png"> </div>
+                    <div class="form-group"> <label for="apoiador-endereco">Endereço (Opcional):</label> <input type="text" id="apoiador-endereco" placeholder="Rua, Número, Bairro"> </div>
+                    <div class="form-group"> <label for="apoiador-telefone">Telefone (Opcional):</label> <input type="text" id="apoiador-telefone" placeholder="(XX) 99999-9999"> </div>
+                    <div class="form-group"> <label for="apoiador-link">Link (Site/Instagram) (Obrigatório):</label> <input type="text" id="apoiador-link" placeholder="https://site.com.br"> </div>
+                    <button class="btn" id="btn-salvar-apoiador">Salvar Apoiador</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-apoiador" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Apoiadores Cadastrados</h3>
+                <div class="form-group"> <label for="apoiador-pesquisar">Pesquisar Apoiador:</label> <input type="text" id="apoiador-pesquisar" placeholder="Digite o nome..."> </div>
+                <table class="admin-table">
+                    <thead> <tr> <th>Logo</th> <th>Nome</th> <th>Telefone</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="apoiadores-lista"> <tr><td colspan="4">Carregando apoiadores...</td></tr> </tbody>
+                </table>
+            </section>
+            
             <section id="paginas" class="admin-section">
                 <h2><i class="fa fa-file-text-o"></i> Gerenciar Páginas (Bairro/Home)</h2>
                 <p>Edite os blocos de texto e imagem que aparecem nas páginas `index.html` e `bairro.html`.</p>
@@ -256,7 +291,7 @@
                 </div>
                 <div class="admin-form">
                     <h3>Página O Bairro (bairro.html)</h3>
-                    <div class="form-group"> <label for="bairro-imagem-url">URL da Imagem (Endereço):</label> <input type="text" id="bairro-imagem-url" placeholder="https://.../imagem.jpg"> </div>
+                    <div class="form-group"> <label for="bairro-imagem-url">URL da Imagem (Endereço): https://lh3.googleusercontent.com/d/</label> <input type="text" id="bairro-imagem-url" placeholder="https://.../imagem.jpg"> </div>
                     <div class="form-group"> <label for="bairro-texto">Texto (História do Bairro):</label> <textarea id="bairro-texto" style="min-height: 200px;"></textarea> </div>
                     <button class="btn" id="btn-salvar-bairro">Salvar Conteúdo de "O Bairro"</button>
                 </div>
@@ -279,14 +314,12 @@
                     <tbody id="frases-lista"> <tr><td colspan="2">Carregando frases...</td></tr> </tbody>
                 </table>
             </section>
-            
-            </main>
+        </main>
     </div>
 
     <script> 
         document.addEventListener('DOMContentLoaded', () => { 
             console.log("Admin HTML Carregado. Configurando Navegação...");
-            // Este script só controla a navegação visual das abas
             const menuLinks = document.querySelectorAll('.admin-menu-link'); 
             const sections = document.querySelectorAll('.admin-section'); 
             
@@ -463,9 +496,19 @@
                 console.log("Módulo Agenda OK.");
             } catch(e) { console.error("Falha ao inicializar Módulo Agenda:", e); }
 
-            // --- MÓDULO DE DIRETORIA ---
+            // --- MÓDULO DE DIRETORIA (Atualizado com <select>) ---
             try {
-                const diretoriaGestao = document.getElementById('diretoria-gestao'); const btnSalvarGestao = document.getElementById('btn-salvar-gestao'); const formDiretoriaTitulo = document.getElementById('form-diretoria-titulo'); const diretoriaId = document.getElementById('diretoria-id'); const diretoriaNome = document.getElementById('diretoria-nome'); const diretoriaCargo = document.getElementById('diretoria-cargo'); const diretoriaImagemUrl = document.getElementById('diretoria-imagem-url'); const diretoriaInstagram = document.getElementById('diretoria-instagram'); const diretoriaDescricao = document.getElementById('diretoria-descricao'); const btnSalvarDiretoria = document.getElementById('btn-salvar-diretoria'); const btnCancelarEdicaoDiretoria = document.getElementById('btn-cancelar-edicao-diretoria'); const diretoriaLista = document.getElementById('diretoria-lista'); const diretoriaPesquisar = document.getElementById('diretoria-pesquisar'); const dbRefGestao = ref(database, 'paginas/diretoria_gestao'); const dbRefDiretoria = ref(database, 'diretoria'); let allDiretoria = {}; let editandoDiretoria = false; const roleOrderAdmin = [ "Presidente", "Vice-Presidente", "1º Secretário", "2º Secretário", "Tesoureiro", "Fiscais", "Suplentes" ]; function getRoleSortKey(role = '') { const index = roleOrderAdmin.indexOf(role.split(' ')[0]); return index === -1 ? 99 : index; } btnSalvarGestao.addEventListener('click', async () => { btnSalvarGestao.disabled = true; btnSalvarGestao.innerText = "Salvando..."; try { await set(dbRefGestao, diretoriaGestao.value || ""); alert('Data da Gestão salva com sucesso!'); } catch (e) { alert('Erro ao salvar: ' + e.message); } finally { btnSalvarGestao.disabled = false; btnSalvarGestao.innerText = "Salvar Gestão"; } }); onValue(dbRefGestao, (snapshot) => { diretoriaGestao.value = snapshot.val() || ""; }); function resetarFormularioDiretoria() { formDiretoriaTitulo.innerText = "Adicionar Novo Membro"; diretoriaId.value = ""; diretoriaNome.value = ""; diretoriaCargo.value = ""; diretoriaImagemUrl.value = ""; diretoriaInstagram.value = ""; diretoriaDescricao.value = ""; btnCancelarEdicaoDiretoria.style.display = "none"; editandoDiretoria = false; } btnSalvarDiretoria.addEventListener('click', async () => { const nome = diretoriaNome.value; const cargo = diretoriaCargo.value; const id = diretoriaId.value; if (!nome || !cargo) { alert('Os campos "Nome" e "Cargo" são obrigatórios.'); return; } btnSalvarDiretoria.disabled = true; btnSalvarDiretoria.innerText = "Salvando..."; const dadosMembro = { nome: nome, cargo: cargo, imageUrl: diretoriaImagemUrl.value || "", instagram: diretoriaInstagram.value || "", descricao: diretoriaDescricao.value || "" }; try { if (editandoDiretoria && id) { await set(ref(database, `diretoria/${id}`), dadosMembro); alert('Membro atualizado com sucesso!'); } else { await push(dbRefDiretoria, dadosMembro); alert('Membro salvo com sucesso!'); } resetarFormularioDiretoria(); } catch (error) { console.error("Erro ao SALVAR Diretoria:", error); alert("Erro ao salvar membro. Verifique as regras do Firebase."); } finally { btnSalvarDiretoria.disabled = false; btnSalvarDiretoria.innerText = "Salvar Membro"; } }); function exibirDiretoria(filtro = '') { diretoriaLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allDiretoria).sort((a, b) => { const cargoA = getRoleSortKey(allDiretoria[a]?.cargo); const cargoB = getRoleSortKey(allDiretoria[b]?.cargo); if (cargoA === cargoB) { return (allDiretoria[a]?.nome || '').localeCompare(allDiretoria[b]?.nome || ''); } return cargoA - cargoB; }); if (chavesOrdenadas.length === 0) { diretoriaLista.innerHTML = '<tr><td colspan="4">Nenhum membro cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const membro = allDiretoria[key]; if (filtro && !(membro?.nome || '').toLowerCase().includes(filtroLowerCase) && !(membro?.cargo || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${membro?.imageUrl || 'https://via.placeholder.com/50x65.png?text=3x4'}" alt="Foto"></td> <td>${membro?.nome || ''}</td> <td>${membro?.cargo || ''}</td> <td> <button class="btn-secondary btn-editar-diretoria" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-diretoria" data-id="${key}">Excluir</button> </td> `; diretoriaLista.appendChild(tr); } if (count === 0 && filtro) { diretoriaLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(dbRefDiretoria, (snapshot) => { if (snapshot.exists()) { allDiretoria = snapshot.val() || {}; exibirDiretoria(diretoriaPesquisar.value); } else { allDiretoria = {}; diretoriaLista.innerHTML = '<tr><td colspan="4">Nenhum membro cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Diretoria:", error); diretoriaLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar diretoria. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); diretoriaPesquisar.addEventListener('keyup', () => exibirDiretoria(diretoriaPesquisar.value)); diretoriaLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-diretoria')) { if (confirm(`Tem certeza que deseja excluir o membro "${allDiretoria[id]?.nome}"?`)) { try { await remove(ref(database, `diretoria/${id}`)); alert('Membro excluído!'); } catch (error) { alert("Erro ao excluir membro."); } } } if (target.classList.contains('btn-editar-diretoria')) { const membro = allDiretoria[id]; if (!membro) return; formDiretoriaTitulo.innerText = "Editar Membro"; diretoriaId.value = id; diretoriaNome.value = membro.nome; diretoriaCargo.value = membro.cargo; diretoriaImagemUrl.value = membro.imageUrl || ""; diretoriaInstagram.value = membro.instagram || ""; diretoriaDescricao.value = membro.descricao || ""; btnCancelarEdicaoDiretoria.style.display = "inline-block"; editandoDiretoria = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoDiretoria.addEventListener('click', resetarFormularioDiretoria);
+                const diretoriaGestao = document.getElementById('diretoria-gestao'); const btnSalvarGestao = document.getElementById('btn-salvar-gestao'); const formDiretoriaTitulo = document.getElementById('form-diretoria-titulo'); const diretoriaId = document.getElementById('diretoria-id'); const diretoriaNome = document.getElementById('diretoria-nome'); const diretoriaCargo = document.getElementById('diretoria-cargo'); const diretoriaImagemUrl = document.getElementById('diretoria-imagem-url'); const diretoriaInstagram = document.getElementById('diretoria-instagram'); const diretoriaDescricao = document.getElementById('diretoria-descricao'); const btnSalvarDiretoria = document.getElementById('btn-salvar-diretoria'); const btnCancelarEdicaoDiretoria = document.getElementById('btn-cancelar-edicao-diretoria'); const diretoriaLista = document.getElementById('diretoria-lista'); const diretoriaPesquisar = document.getElementById('diretoria-pesquisar'); const dbRefGestao = ref(database, 'paginas/diretoria_gestao'); const dbRefDiretoria = ref(database, 'diretoria'); let allDiretoria = {}; let editandoDiretoria = false; 
+                
+                // NOVA ORDEM DE CARGOS
+                const roleOrderAdmin = [ "Presidente", "Vice-Presidente", "1º Secretário", "2º Secretário", "Tesoureiro", "Conselho Fiscal", "Suplente", "Associado", "Colaborador" ]; 
+                // NOVA FUNÇÃO DE ORDENAÇÃO
+                function getRoleSortKey(role = '') { 
+                    const index = roleOrderAdmin.indexOf(role); // Busca exata
+                    return index === -1 ? 99 : index; 
+                } 
+                
+                btnSalvarGestao.addEventListener('click', async () => { btnSalvarGestao.disabled = true; btnSalvarGestao.innerText = "Salvando..."; try { await set(dbRefGestao, diretoriaGestao.value || ""); alert('Data da Gestão salva com sucesso!'); } catch (e) { alert('Erro ao salvar: ' + e.message); } finally { btnSalvarGestao.disabled = false; btnSalvarGestao.innerText = "Salvar Gestão"; } }); onValue(dbRefGestao, (snapshot) => { diretoriaGestao.value = snapshot.val() || ""; }); function resetarFormularioDiretoria() { formDiretoriaTitulo.innerText = "Adicionar Novo Membro"; diretoriaId.value = ""; diretoriaNome.value = ""; diretoriaCargo.value = ""; diretoriaImagemUrl.value = ""; diretoriaInstagram.value = ""; diretoriaDescricao.value = ""; btnCancelarEdicaoDiretoria.style.display = "none"; editandoDiretoria = false; } btnSalvarDiretoria.addEventListener('click', async () => { const nome = diretoriaNome.value; const cargo = diretoriaCargo.value; const id = diretoriaId.value; if (!nome || !cargo) { alert('Os campos "Nome" e "Cargo" são obrigatórios.'); return; } btnSalvarDiretoria.disabled = true; btnSalvarDiretoria.innerText = "Salvando..."; const dadosMembro = { nome: nome, cargo: cargo, imageUrl: diretoriaImagemUrl.value || "", instagram: diretoriaInstagram.value || "", descricao: diretoriaDescricao.value || "" }; try { if (editandoDiretoria && id) { await set(ref(database, `diretoria/${id}`), dadosMembro); alert('Membro atualizado com sucesso!'); } else { await push(dbRefDiretoria, dadosMembro); alert('Membro salvo com sucesso!'); } resetarFormularioDiretoria(); } catch (error) { console.error("Erro ao SALVAR Diretoria:", error); alert("Erro ao salvar membro. Verifique as regras do Firebase."); } finally { btnSalvarDiretoria.disabled = false; btnSalvarDiretoria.innerText = "Salvar Membro"; } }); function exibirDiretoria(filtro = '') { diretoriaLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allDiretoria).sort((a, b) => { const cargoA = getRoleSortKey(allDiretoria[a]?.cargo); const cargoB = getRoleSortKey(allDiretoria[b]?.cargo); if (cargoA === cargoB) { return (allDiretoria[a]?.nome || '').localeCompare(allDiretoria[b]?.nome || ''); } return cargoA - cargoB; }); if (chavesOrdenadas.length === 0) { diretoriaLista.innerHTML = '<tr><td colspan="4">Nenhum membro cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const membro = allDiretoria[key]; if (filtro && !(membro?.nome || '').toLowerCase().includes(filtroLowerCase) && !(membro?.cargo || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${membro?.imageUrl || 'https://via.placeholder.com/50x65.png?text=3x4'}" alt="Foto"></td> <td>${membro?.nome || ''}</td> <td>${membro?.cargo || ''}</td> <td> <button class="btn-secondary btn-editar-diretoria" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-diretoria" data-id="${key}">Excluir</button> </td> `; diretoriaLista.appendChild(tr); } if (count === 0 && filtro) { diretoriaLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(dbRefDiretoria, (snapshot) => { if (snapshot.exists()) { allDiretoria = snapshot.val() || {}; exibirDiretoria(diretoriaPesquisar.value); } else { allDiretoria = {}; diretoriaLista.innerHTML = '<tr><td colspan="4">Nenhum membro cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Diretoria:", error); diretoriaLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar diretoria. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); diretoriaPesquisar.addEventListener('keyup', () => exibirDiretoria(diretoriaPesquisar.value)); diretoriaLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-diretoria')) { if (confirm(`Tem certeza que deseja excluir o membro "${allDiretoria[id]?.nome}"?`)) { try { await remove(ref(database, `diretoria/${id}`)); alert('Membro excluído!'); } catch (error) { alert("Erro ao excluir membro."); } } } if (target.classList.contains('btn-editar-diretoria')) { const membro = allDiretoria[id]; if (!membro) return; formDiretoriaTitulo.innerText = "Editar Membro"; diretoriaId.value = id; diretoriaNome.value = membro.nome; diretoriaCargo.value = membro.cargo; diretoriaImagemUrl.value = membro.imageUrl || ""; diretoriaInstagram.value = membro.instagram || ""; diretoriaDescricao.value = membro.descricao || ""; btnCancelarEdicaoDiretoria.style.display = "inline-block"; editandoDiretoria = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoDiretoria.addEventListener('click', resetarFormularioDiretoria);
                 console.log("Módulo Diretoria OK.");
             } catch(e) { console.error("Falha ao inicializar Módulo Diretoria:", e); }
 
@@ -474,6 +517,12 @@
                 const formGaleriaTitulo = document.getElementById('form-galeria-titulo'); const galeriaId = document.getElementById('galeria-id'); const galeriaTitulo = document.getElementById('galeria-titulo'); const galeriaImagemUrl = document.getElementById('galeria-imagem-url'); const galeriaLink = document.getElementById('galeria-link'); const galeriaDescricao = document.getElementById('galeria-descricao'); const btnSalvarGaleria = document.getElementById('btn-salvar-galeria'); const btnCancelarEdicaoGaleria = document.getElementById('btn-cancelar-edicao-galeria'); const galeriaLista = document.getElementById('galeria-lista'); const galeriaPesquisar = document.getElementById('galeria-pesquisar'); const dbRefGaleria = ref(database, 'galeria'); let allGaleria = {}; let editandoGaleria = false; function resetarFormularioGaleria() { formGaleriaTitulo.innerText = "Adicionar Novo Álbum"; galeriaId.value = ""; galeriaTitulo.value = ""; galeriaImagemUrl.value = ""; galeriaLink.value = ""; galeriaDescricao.value = ""; btnCancelarEdicaoGaleria.style.display = "none"; editandoGaleria = false; } btnSalvarGaleria.addEventListener('click', async () => { const titulo = galeriaTitulo.value; const imageUrl = galeriaImagemUrl.value; const link = galeriaLink.value; const id = galeriaId.value; if (!titulo || !imageUrl || !link) { alert('Os campos "Título", "URL da Imagem de Capa" e "Link do Álbum" são obrigatórios.'); return; } btnSalvarGaleria.disabled = true; btnSalvarGaleria.innerText = "Salvando..."; const dadosAlbum = { titulo: titulo, imageUrl: imageUrl, link: link, descricao: galeriaDescricao.value || "" }; try { if (editandoGaleria && id) { await set(ref(database, `galeria/${id}`), dadosAlbum); alert('Álbum atualizado com sucesso!'); } else { await push(dbRefGaleria, dadosAlbum); alert('Álbum salvo com sucesso!'); } resetarFormularioGaleria(); } catch (error) { console.error("Erro ao SALVAR Galeria:", error); alert("Erro ao salvar álbum. Verifique as regras do Firebase."); } finally { btnSalvarGaleria.disabled = false; btnSalvarGaleria.innerText = "Salvar Álbum"; } }); function exibirGaleria(filtro = '') { galeriaLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allGaleria).sort((a, b) => (allGaleria[a]?.titulo || '').localeCompare(allGaleria[b]?.titulo || '')); if (chavesOrdenadas.length === 0) { galeriaLista.innerHTML = '<tr><td colspan="4">Nenhum álbum cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const album = allGaleria[key]; if (filtro && !(album?.titulo || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${album?.imageUrl || 'https://via.placeholder.com/100x75.png?text=Capa'}" alt="Capa"></td> <td>${album?.titulo || ''}</td> <td><a href="${album?.link || '#'}" target="_blank">Abrir Link</a></td> <td> <button class="btn-secondary btn-editar-galeria" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-galeria" data-id="${key}">Excluir</button> </td> `; galeriaLista.appendChild(tr); } if (count === 0 && filtro) { galeriaLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefGaleria, orderByChild('titulo')), (snapshot) => { if (snapshot.exists()) { allGaleria = snapshot.val() || {}; exibirGaleria(galeriaPesquisar.value); } else { allGaleria = {}; galeriaLista.innerHTML = '<tr><td colspan="4">Nenhum álbum cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Galeria:", error); galeriaLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar álbuns. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); galeriaPesquisar.addEventListener('keyup', () => exibirGaleria(galeriaPesquisar.value)); galeriaLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-galeria')) { if (confirm(`Tem certeza que deseja excluir o álbum "${allGaleria[id]?.titulo}"?`)) { try { await remove(ref(database, `galeria/${id}`)); alert('Álbum excluído!'); } catch (error) { alert("Erro ao excluir álbum."); } } } if (target.classList.contains('btn-editar-galeria')) { const album = allGaleria[id]; if (!album) return; formGaleriaTitulo.innerText = "Editar Álbum"; galeriaId.value = id; galeriaTitulo.value = album.titulo; galeriaImagemUrl.value = album.imageUrl; galeriaLink.value = album.link; galeriaDescricao.value = album.descricao || ""; btnCancelarEdicaoGaleria.style.display = "inline-block"; editandoGaleria = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoGaleria.addEventListener('click', resetarFormularioGaleria);
                 console.log("Módulo Galeria OK.");
             } catch(e) { console.error("Falha ao inicializar Módulo Galeria:", e); }
+
+            // --- MÓDULO DE APOIADORES (NOVO) ---
+            try {
+                const formApoiadorTitulo = document.getElementById('form-apoiador-titulo'); const apoiadorId = document.getElementById('apoiador-id'); const apoiadorNome = document.getElementById('apoiador-nome'); const apoiadorImagemUrl = document.getElementById('apoiador-imagem-url'); const apoiadorEndereco = document.getElementById('apoiador-endereco'); const apoiadorTelefone = document.getElementById('apoiador-telefone'); const apoiadorLink = document.getElementById('apoiador-link'); const btnSalvarApoiador = document.getElementById('btn-salvar-apoiador'); const btnCancelarEdicaoApoiador = document.getElementById('btn-cancelar-edicao-apoiador'); const apoiadoresLista = document.getElementById('apoiadores-lista'); const apoiadorPesquisar = document.getElementById('apoiador-pesquisar'); const dbRefApoiadores = ref(database, 'apoiadores'); let allApoiadores = {}; let editandoApoiador = false; function resetarFormularioApoiador() { formApoiadorTitulo.innerText = "Adicionar Novo Apoiador"; apoiadorId.value = ""; apoiadorNome.value = ""; apoiadorImagemUrl.value = ""; apoiadorEndereco.value = ""; apoiadorTelefone.value = ""; apoiadorLink.value = ""; btnCancelarEdicaoApoiador.style.display = "none"; editandoApoiador = false; } btnSalvarApoiador.addEventListener('click', async () => { const nome = apoiadorNome.value; const id = apoiadorId.value; if (!nome) { alert('O campo "Nome" é obrigatório.'); return; } btnSalvarApoiador.disabled = true; btnSalvarApoiador.innerText = "Salvando..."; const dadosApoiador = { nome: nome, imageUrl: apoiadorImagemUrl.value || "", endereco: apoiadorEndereco.value || "", telefone: apoiadorTelefone.value || "", link: apoiadorLink.value || "" }; try { if (editandoApoiador && id) { await set(ref(database, `apoiadores/${id}`), dadosApoiador); alert('Apoiador atualizado com sucesso!'); } else { await push(dbRefApoiadores, dadosApoiador); alert('Apoiador salvo com sucesso!'); } resetarFormularioApoiador(); } catch (error) { console.error("Erro ao SALVAR Apoiador:", error); alert("Erro ao salvar apoiador. Verifique as regras do Firebase."); } finally { btnSalvarApoiador.disabled = false; btnSalvarApoiador.innerText = "Salvar Apoiador"; } }); function exibirApoiadores(filtro = '') { apoiadoresLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allApoiadores).sort((a, b) => (allApoiadores[a]?.nome || '').localeCompare(allApoiadores[b]?.nome || '')); if (chavesOrdenadas.length === 0) { apoiadoresLista.innerHTML = '<tr><td colspan="4">Nenhum apoiador cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const apoiador = allApoiadores[key]; if (filtro && !(apoiador?.nome || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${apoiador?.imageUrl || 'https://via.placeholder.com/100x75.png?text=Logo'}" alt="Logo"></td> <td>${apoiador?.nome || ''}</td> <td>${apoiador?.telefone || 'N/A'}</td> <td> <button class="btn-secondary btn-editar-apoiador" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-apoiador" data-id="${key}">Excluir</button> </td> `; apoiadoresLista.appendChild(tr); } if (count === 0 && filtro) { apoiadoresLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefApoiadores, orderByChild('nome')), (snapshot) => { if (snapshot.exists()) { allApoiadores = snapshot.val() || {}; exibirApoiadores(apoiadorPesquisar.value); } else { allApoiadores = {}; apoiadoresLista.innerHTML = '<tr><td colspan="4">Nenhum apoiador cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Apoiadores:", error); apoiadoresLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar apoiadores. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); apoiadorPesquisar.addEventListener('keyup', () => exibirApoiadores(apoiadorPesquisar.value)); apoiadoresLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-apoiador')) { if (confirm(`Tem certeza que deseja excluir o apoiador "${allApoiadores[id]?.nome}"?`)) { try { await remove(ref(database, `apoiadores/${id}`)); alert('Apoiador excluído!'); } catch (error) { alert("Erro ao excluir apoiador."); } } } if (target.classList.contains('btn-editar-apoiador')) { const apoiador = allApoiadores[id]; if (!apoiador) return; formApoiadorTitulo.innerText = "Editar Apoiador"; apoiadorId.value = id; apoiadorNome.value = apoiador.nome; apoiadorImagemUrl.value = apoiador.imageUrl || ""; apoiadorEndereco.value = apoiador.endereco || ""; apoiadorTelefone.value = apoiador.telefone || ""; apoiadorLink.value = apoiador.link || ""; btnCancelarEdicaoApoiador.style.display = "inline-block"; editandoApoiador = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoApoiador.addEventListener('click', resetarFormularioApoiador);
+                console.log("Módulo Apoiadores OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Apoiadores:", e); }
 
             // --- MÓDULO DE FRASES ---
             try {
