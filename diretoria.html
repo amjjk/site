@@ -138,19 +138,21 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // --- ORDEM DE CARGOS (Conforme solicitado) ---
+        // --- ORDEM DE CARGOS (Corrigida) ---
         const roleOrder = [
             "Presidente",
             "Vice-Presidente",
             "1º Secretário",
             "2º Secretário",
             "Tesoureiro",
-            "Fiscais", // Tratará múltiplos fiscais
-            "Suplentes" // Tratará múltiplos suplentes
+            "Conselho Fiscal",
+            "Suplente",
+            "Associado",
+            "Colaborador"
         ];
         
         function getRoleSortKey(role = '') {
-            const cargoBase = role.split(' ')[0]; // Pega "Fiscais" de "Fiscais 1"
+            const cargoBase = role.split(' ')[0]; // Pega "Conselho" de "Conselho Fiscal"
             const index = roleOrder.indexOf(cargoBase);
             return (index !== -1) ? index : 99; // Joga cargos desconhecidos para o final
         }
@@ -227,6 +229,3 @@
     </script>
 </body>
 </html>
-
-
-
