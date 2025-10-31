@@ -1,594 +1,548 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Kendence F.C.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Painel Admin - A.M.J.J.K</title>
+    
+    <link href="css/owl.carousel.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
     <style>
-        body { background-color: #1a202c; color: white; }
+        /* Estilos do Admin - TEMA ESCURO */
+        body { background-color: #2d2d2d; color: #e0e0e0; font-family: 'Arial', sans-serif; } 
+        .admin-wrapper { display: flex; min-height: 100vh; }
+        .admin-sidebar { width: 250px; background-color: #1f1f1f; color: #ccc; padding: 20px; box-shadow: 2px 0 10px rgba(0,0,0,0.5); z-index: 10;} 
+        .admin-sidebar h3 { color: #fff; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .admin-sidebar ul { list-style: none; padding: 0; }
+        .admin-sidebar ul li a { display: block; padding: 10px 15px; color: #ccc; text-decoration: none; border-radius: 5px; margin-bottom: 5px; transition: all 0.2s ease; }
+        .admin-sidebar ul li a:hover { background-color: #333; color: white; }
+        .admin-sidebar ul li a.active { background-color: #007bff; color: white; } /* Azul no item ativo */
+        .admin-content { flex: 1; padding: 30px; background-color: #3c3c3c; overflow-y: auto; height: 100vh;} 
+        .admin-section { display: none; }
+        .admin-section.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .admin-section h2 { color: #fff; border-bottom: 1px solid #555; padding-bottom: 10px; margin-bottom: 20px;}
+        .admin-section h3 { color: #eee; }
+        .admin-section p { color: #ccc; }
+        hr { border-top: 1px solid #555; }
         
-        /* --- ESTILOS DO LOGIN (NOVO) --- */
-        #login-screen { background-color: rgba(26, 32, 44, 0.95); z-index: 50; }
-        .login-box { background-color: #2d3748; padding: 2.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
-        .login-input { background-color: #4a5568; border: 1px solid #718096; color: white; border-radius: 0.375rem; padding: 0.75rem 1rem; }
-        .login-btn { background-color: #4299e1; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
-        .login-btn:hover { background-color: #2b6cb0; }
-        #login-error { color: #e53e3e; font-size: 0.875rem; margin-top: 0.5rem; display: none; } /* Mensagem de erro oculta por padrão */
-        
-        /* --- ESTILOS DO PAINEL ADMIN --- */
-        #admin-panel { display: none; } /* Painel oculto initially */
-        .form-section, .backup-section { background-color: #2d3748; padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem; }
-        .form-input { background-color: #4a5568; border: 1px solid #718096; color: white; border-radius: 0.375rem; }
-        .form-input::-webkit-calendar-picker-indicator { filter: invert(1); }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
-        .btn-primary { background-color: #4299e1; color: white; }
-        .btn-primary:hover { background-color: #2b6cb0; }
-        .btn-danger { background-color: #e53e3e; color: white; }
-        .btn-danger:hover { background-color: #c53030; }
-        .btn-secondary { background-color: #718096; color: white; }
-        .btn-secondary:hover { background-color: #4a5568; }
-        .btn-success { background-color: #38a169; color: white; }
-        .btn-success:hover { background-color: #2f855a; }
-        #data-display { max-height: 400px; overflow-y: auto; background-color: #1a202c; padding: 1rem; border-radius: 0.5rem; border: 1px solid #4a5568; }
-        .url-input-container { display: flex; align-items: center; border: 1px solid #718096; border-radius: 0.375rem; background-color: #4a5568; }
-        .url-base { background-color: #2d3748; padding: 0.5rem; white-space: nowrap; border-right: 1px solid #718096; }
-        .url-final-input { border: none; outline: none; padding: 0.5rem; width: 100%; background-color: transparent; color: white; }
+        /* Formulários */
+        .admin-form { background: #444; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .admin-form .form-group { margin-bottom: 20px; }
+        .admin-form label { display: block; font-weight: bold; margin-bottom: 5px; color: #ccc; }
+        .admin-form input[type="text"],
+        .admin-form input[type="date"],
+        .admin-form input[type="datetime-local"], 
+        .admin-form input[type="email"], 
+        .admin-form input[type="password"],
+        .admin-form textarea,
+        .admin-form select {
+            width: 100%; padding: 10px; border: 1px solid #666; border-radius: 5px; font-size: 1rem;
+            background-color: #555; color: #fff; box-sizing: border-box; 
+        }
+        .admin-form textarea { min-height: 100px; } 
+        .admin-form .btn { background-color: #0d6efd; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; font-weight: bold; }
+        .admin-form .btn:disabled { background-color: #555; cursor: not-allowed;}
+        .admin-form .btn-danger { background-color: #dc3545; }
+        .admin-form .btn-secondary { background-color: #6c757d; }
+        .admin-form small, .admin-form small a { color: #aaa; text-decoration: none; }
+        .admin-form small a:hover { text-decoration: underline; }
+
+        /* Tabela */
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: #444; }
+        .admin-table th, .admin-table td { padding: 12px; border: 1px solid #555; text-align: left; vertical-align: middle; color: #ccc;} 
+        .admin-table th { background-color: #333; color: #fff; } 
+        .admin-table img { max-width: 100px; height: auto; border-radius: 4px; border: 1px solid #666;} 
+        .admin-table .actions { width: 140px; } 
+        .admin-table .frase-texto { max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
+        .admin-table a { color: #87ceeb; } 
+
+        /* Login */
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        #login-box { background: #333; color: #eee; padding: 40px; border-radius: 10px; text-align: center; } 
+        #login-box .form-group { margin-bottom: 15px; text-align: left; }
+        #login-box label { color: #ccc; }
+        #login-box input { background-color: #555; color: #fff; border: 1px solid #666; }
+        #login-box p#login-error { color: #ff8a8a; font-weight: bold; } 
+        #login-box #logged-in-user { color: #a2d2ff; font-weight: bold; margin-bottom: 15px;} 
+
+        /* Badges "Em Breve" */
+        .badge-em-breve { 
+            background-color: #f0ad4e; color: #333; font-size: 0.7rem; font-weight: bold;
+            padding: 3px 6px; border-radius: 4px; margin-left: 10px; vertical-align: middle; 
+        }
     </style>
 </head>
-<body class="p-8 font-sans">
+<body>
 
-    <div id="login-screen" class="fixed inset-0 flex items-center justify-center">
-        <div class="login-box w-full max-w-sm">
-            
-            <img src="https://lh3.googleusercontent.com/d/1c5dDZYwAcdPoD8H-_5pBbkgwISvSG63l" alt="Brasão Kendence F.C." class="w-32 h-27 mx-auto mb-4">
-            <h1 class="text-3xl font-bold text-center mb-6">Admin Login</h1>
-            <form id="login-form">
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium mb-1">E-mail</label>
-                    <input type="email" id="email" class="login-input w-full" required>
-                </div>
-                <div class="mb-6">
-                    <label for="password" class="block text-sm font-medium mb-1">Senha</label>
-                    <input type="password" id="password" class="login-input w-full" required>
-                </div>
-                <button type="submit" class="login-btn w-full">Entrar</button>
-                <p id="login-error">E-mail ou senha inválidos.</p> </form>
+    <div id="login-overlay">
+        <div id="login-box">
+            <h3>Login do Administrador</h3>
+            <p id="login-error" style="display:none; color: #ff8a8a;">Email ou Senha inválidos!</p> 
+            <p id="logged-in-user" style="display:none;"></p> 
+            <div class="form-group login-fields"> 
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email"> 
+            </div>
+            <div class="form-group login-fields">
+                <label for="login-password">Senha:</label>
+                <input type="password" id="login-password"> 
+            </div>
+            <button id="login-button" class="btn login-fields">Entrar</button>
+            <button id="logout-button" class="btn btn-danger" style="display:none;">Sair</button> 
         </div>
     </div>
-    
-    <div id="admin-panel"> 
-        <div class="fixed top-4 right-4 z-50 flex items-center space-x-4">
-            <button onclick="logout()" class="btn btn-danger py-1 px-3 text-sm">Sair</button>
-            <img src="https://lh3.googleusercontent.com/d/1c5dDZYwAcdPoD8H-_5pBbkgwISvSG63l" alt="Brasão" class="w-16 h-12 rounded-full">
-        </div>
 
-        <h1 class="text-4xl font-bold text-center mb-8">Painel de Administração - Kendence F.C.</h1>
+    <div class="admin-wrapper" style="display:none;">
+        <aside class="admin-sidebar">
+            <h3>Admin A.M.J.J.K.</h3>
+            <ul id="admin-menu">
+                <li><a href="#dashboard" class="admin-menu-link active"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+                <li><a href="#noticias" class="admin-menu-link"><i class="fa fa-newspaper-o"></i> Notícias</a></li>
+                <li><a href="#servicos" class="admin-menu-link"><i class="fa fa-ambulance"></i> Serviços (Utilidades)</a></li>
+                <li><a href="#agenda" class="admin-menu-link"><i class="fa fa-calendar"></i> Agenda e Eventos</a></li>
+                <li><a href="#diretoria" class="admin-menu-link"><i class="fa fa-users"></i> Diretoria</a></li>
+                <li><a href="#galeria" class="admin-menu-link"><i class="fa fa-picture-o"></i> Galeria</a></li>
+                <li><a href="#apoiadores" class="admin-menu-link"><i class="fa fa-star"></i> Apoiadores</a></li>
+                <li><a href="#paginas" class="admin-menu-link"><i class="fa fa-file-text-o"></i> Páginas (Bairro/Home)</a></li>
+                <li><a href="#frases" class="admin-menu-link"><i class="fa fa-comment-o"></i> Frases (Home)</a></li>
+            </ul>
+        </aside>
 
-        <div class="backup-section text-center">
-            <h2 class="text-2xl font-bold mb-4">Backup e Restauração</h2>
-            <p class="text-sm text-gray-400 mb-4">Faça backup de todos os dados ou restaure a partir de um arquivo .json.</p>
-            <div class="flex justify-center space-x-4">
-                <button onclick="backupData()" class="btn btn-success">Fazer Backup</button>
-                <button onclick="triggerRestore()" class="btn btn-danger">Restaurar Backup</button>
-                <input type="file" id="restore-file-input" class="hidden" accept=".json" onchange="restoreData(event)">
-            </div>
-        </div>
+        <main class="admin-content">
 
-        <div class="mb-8">
-            <label for="section-select" class="block mb-2 text-lg font-medium">Selecione a área para gerenciar:</label>
-            <select id="section-select" class="form-input w-full p-3" onchange="showForm(this.value)">
-                <option value="upcomingGames">Próximos Jogos</option>
-                <option value="recentResults">Resultados Recentes</option>
-                <option value="news">Notícias</option>
-                <option value="players">Jogadores</option>
-                <option value="sponsors">Patrocinadores</option>
-            </select>
-        </div>
+            <section id="dashboard" class="admin-section active">
+                <h2><i class="fa fa-tachometer"></i> Dashboard</h2>
+                <p>Bem-vindo ao painel de gerenciamento do site da A.M.J.J.K.</p>
+                <div class="admin-form">
+                    <h3>Backup e Restauração</h3>
+                    <p>Clique no botão abaixo para baixar um arquivo `.json` com todos os dados do site.</p>
+                    <button class="btn" id="btn-backup">Fazer Backup (Baixar JSON)</button>
+                    <button class="btn-secondary" id="btn-restore">Instruções para Restaurar</button>
+                     <p style="color: #aaa; font-size: 0.8rem; margin-top: 10px;">
+                        A restauração é feita manualmente no Console do Firebase para garantir a segurança.
+                    </p>
+                </div>
+            </section>
 
-        <div id="forms-container">
-            <div id="form-upcomingGames" class="form-section">
-                <h2 class="text-2xl font-bold mb-4">Gerenciar Próximos Jogos</h2>
-                <form id="upcomingGames-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="hidden" id="upcomingGames-id">
-                    <div>
-                        <label for="upcomingGames-date-input" class="block text-sm font-medium mb-1">Data do Jogo</label>
-                        <input type="date" id="upcomingGames-date-input" class="form-input p-2 w-full" required>
-                    </div>
-                    <div>
-                        <label for="upcomingGames-time-input" class="block text-sm font-medium mb-1">Hora do Jogo</label>
-                        <input type="time" id="upcomingGames-time-input" class="form-input p-2 w-full" required>
-                    </div>
-                    <input type="text" id="upcomingGames-teams" placeholder="Times (ex: Kendence vs. Time B)" class="form-input p-2" required>
-                    <input type="text" id="upcomingGames-location" placeholder="Nome do Campo" class="form-input p-2" required>
-                    <input type="url" id="upcomingGames-mapLink" placeholder="Link do Google Maps" class="form-input p-2 col-span-1 md:col-span-2" required>
-                    <div class="col-span-1 md:col-span-2 flex space-x-2">
-                        <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
-                        <button type="button" onclick="clearForm('upcomingGames')" class="btn btn-secondary">Limpar</button>
-                    </div>
-                </form>
-            </div>
-            <div id="form-recentResults" class="form-section hidden">
-                <h2 class="text-2xl font-bold mb-4">Gerenciar Resultados Recentes</h2>
-                <form id="recentResults-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="hidden" id="recentResults-id">
-                     <div>
-                        <label for="recentResults-date-input" class="block text-sm font-medium mb-1">Data do Jogo</label>
-                        <input type="date" id="recentResults-date-input" class="form-input p-2 w-full" required>
-                    </div>
-                    <div>
-                        <label for="recentResults-time-input" class="block text-sm font-medium mb-1">Hora do Jogo</label>
-                        <input type="time" id="recentResults-time-input" class="form-input p-2 w-full" required>
-                    </div>
-                    <input type="text" id="recentResults-match" placeholder="Resultado (ex: Kendence 3 x 2 Time B)" class="form-input p-2" required>
-                    <input type="text" id="recentResults-location" placeholder="Nome do Campo" class="form-input p-2" required>
-                    <input type="url" id="recentResults-videoLink" placeholder="Link para Fotos/Vídeos" class="form-input p-2 col-span-1 md:col-span-2" required>
-                    <div class="col-span-1 md:col-span-2 flex space-x-2">
-                        <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
-                        <button type="button" onclick="clearForm('recentResults')" class="btn btn-secondary">Limpar</button>
-                    </div>
-                </form>
-            </div>
+            <section id="noticias" class="admin-section">
+                <h2><i class="fa fa-newspaper-o"></i> Gerenciar Notícias</h2>
+                <div class="admin-form">
+                    <h3 id="form-noticia-titulo">Adicionar Nova Notícia</h3>
+                    <input type="hidden" id="noticia-id"> 
+                    <div class="form-group"> <label for="noticia-titulo">Título (Obrigatório):</label> <input type="text" id="noticia-titulo" placeholder="Título da notícia"> </div>
+                    <div class="form-group"> <label for="noticia-data">Data:</label> <input type="date" id="noticia-data"> </div>
+                    <div class="form-group"> <label for="noticia-imagem-url">URL da Imagem (Endereço): https://lh3.googleusercontent.com/d/</label> <input type="text" id="noticia-imagem-url" placeholder="https://.../imagem.jpg"> </div>
+                    <div class="form-group"> <label for="noticia-texto">Texto da Notícia:</label> <textarea id="noticia-texto" placeholder="Escreva a notícia completa aqui..."></textarea> </div>
+                    <button class="btn" id="btn-salvar-noticia">Salvar Notícia</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-noticia" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Notícias Cadastradas</h3>
+                <div class="form-group"> <label for="noticia-pesquisar">Pesquisar Notícia:</label> <input type="text" id="noticia-pesquisar" placeholder="Digite o título..."> </div>
+                <table class="admin-table">
+                    <thead> <tr> <th>Imagem</th> <th>Título</th> <th>Data</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="noticias-lista"> <tr><td colspan="4">Carregando notícias...</td></tr> </tbody>
+                </table>
+            </section>
             
-            <div id="form-news" class="form-section hidden">
-                <h2 class="text-2xl font-bold mb-4">Gerenciar Notícias</h2>
-                <form id="news-form" class="grid grid-cols-1 gap-4">
-                    <input type="hidden" id="news-id">
-                    <input type="date" id="news-date" class="form-input p-2" required>
-                    <input type="text" id="news-title" placeholder="Título da Notícia" class="form-input p-2" required>
-                    <div>
-                        <label for="news-image-final" class="block text-sm font-medium mb-1">URL da Imagem</label>
-                        <div class="url-input-container">
-                            <span class="url-base" id="news-baseUrl">https://lh3.googleusercontent.com/d/</span>
-                            <input type="text" id="news-image-final" class="url-final-input" placeholder="cole o final da URL aqui" required>
-                        </div>
+            <section id="servicos" class="admin-section">
+                <h2><i class="fa fa-ambulance"></i> Gerenciar Serviços (Utilidades)</h2>
+                <div class="admin-form">
+                    <h3 id="form-servico-titulo">Adicionar Novo Serviço</h3>
+                    <input type="hidden" id="servico-id">
+                    <div class="form-group"> <label for="servico-nome">Nome (Obrigatório):</label> <input type="text" id="servico-nome" placeholder="Ex: Posto de Saúde"> </div>
+                    <div class="form-group"> <label for="servico-icone">Ícone (Opcional):</label> <input type="text" id="servico-icone" placeholder="Ex: fa fa-hospital-o"> <small>Use classes do <a href="https://fontawesome.com/v4/icons/" target="_blank">Font Awesome 4.7</a></small> </div>
+                    <div class="form-group"> <label for="servico-texto">Descrição (Opcional):</label> <textarea id="servico-texto" placeholder="Descrição breve do serviço"></textarea> </div>
+                    <div class="form-group"> <label for="servico-endereco">Endereço (Opcional):</label> <input type="text" id="servico-endereco" placeholder="Rua Exemplo, 123"> </div>
+                    <div class="form-group"> <label for="servico-horario">Horário (Opcional):</label> <input type="text" id="servico-horario" placeholder="08:00 - 17:00"> </div>
+                    <div class="form-group"> <label for="servico-telefone">Telefone (Opcional):</label> <input type="text" id="servico-telefone" placeholder="(43) 3333-4444"> </div>
+                    <div class="form-group"> <label for="servico-link">Link (Opcional):</label> <input type="text" id="servico-link" placeholder="https://.../site.com.br"> </div>
+                    <button class="btn" id="btn-salvar-servico">Salvar Serviço</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-servico" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Serviços Cadastrados</h3>
+                <div class="form-group"> <label for="servico-pesquisar">Pesquisar Serviço:</label> <input type="text" id="servico-pesquisar" placeholder="Digite o nome..."> </div>
+                <table class="admin-table">
+                    <thead> <tr> <th>Nome</th> <th>Telefone</th> <th>Endereço</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="servicos-lista"> <tr><td colspan="4">Carregando serviços...</td></tr> </tbody>
+                </table>
+            </section>
+            
+            <section id="agenda" class="admin-section">
+                <h2><i class="fa fa-calendar"></i> Gerenciar Agenda e Eventos</h2>
+                <div class="admin-form">
+                    <h3 id="form-agenda-titulo">Adicionar Novo Evento</h3>
+                    <input type="hidden" id="agenda-id">
+                    <div class="form-group"> <label for="agenda-titulo">Título (Obrigatório):</label> <input type="text" id="agenda-titulo" placeholder="Ex: Jogo Final do Campeonato"> </div>
+                    <div class="form-group"> <label for="agenda-data">Data e Hora:</label> <input type="datetime-local" id="agenda-data"> </div>
+                    <div class="form-group"> <label for="agenda-local">Local:</label> <input type="text" id="agenda-local" placeholder="Ex: Campinho do Bairro"> </div>
+                    <div class="form-group"> <label for="agenda-descricao">Descrição:</label> <textarea id="agenda-descricao" placeholder="Detalhes sobre o evento..."></textarea> </div>
+                    <button class="btn" id="btn-salvar-agenda">Salvar Evento</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-agenda" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Eventos Cadastrados</h3>
+                <div class="form-group"> <label for="agenda-pesquisar">Pesquisar Evento:</label> <input type="text" id="agenda-pesquisar" placeholder="Digite o título..."> </div>
+                <table class="admin-table">
+                    <thead> <tr> <th>Título</th> <th>Data</th> <th>Local</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="agenda-lista"> <tr><td colspan="4">Carregando eventos...</td></tr> </tbody>
+                </table>
+            </section>
+            
+            <section id="diretoria" class="admin-section">
+                <h2><i class="fa fa-users"></i> Gerenciar Diretoria</h2>
+                <div class="admin-form" style="margin-bottom: 30px;">
+                    <h3>Data da Gestão</h3>
+                    <div class="form-group"> <label for="diretoria-gestao">Texto da Gestão (Ex: 2025-2028):</label> <input type="text" id="diretoria-gestao" placeholder="Gestão 2025-2028"> </div>
+                    <button class="btn" id="btn-salvar-gestao">Salvar Gestão</button>
+                </div>
+                <div class="admin-form">
+                    <h3 id="form-diretoria-titulo">Adicionar Novo Membro</h3>
+                    <input type="hidden" id="diretoria-id">
+                    <div class="form-group"> <label for="diretoria-nome">Nome (Obrigatório):</label> <input type="text" id="diretoria-nome" placeholder="Nome completo do membro"> </div>
+                    
+                    <div class="form-group"> 
+                        <label for="diretoria-cargo">Cargo (Obrigatório):</label> 
+                        <select id="diretoria-cargo">
+                            <option value="">-- Selecione um cargo --</option>
+                            <option value="Presidente">Presidente</option>
+                            <option value="Vice-Presidente">Vice-Presidente</option>
+                            <option value="1º Secretário">1º Secretário</option>
+                            <option value="2º Secretário">2º Secretário</option>
+                            <option value="Tesoureiro">Tesoureiro</option>
+                            <option value="Conselho Fiscal">Conselho Fiscal</option>
+                            <option value="Suplente">Suplente</option>
+                            <option value="Associado">Associado</option>
+                            <option value="Colaborador">Colaborador</option>
+                        </select>
                     </div>
-                    <textarea id="news-text" placeholder="Texto da Notícia" rows="5" class="form-input p-2" required></textarea>
-                    <div class="flex space-x-2">
-                        <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
-                        <button type="button" onclick="clearForm('news')" class="btn btn-secondary">Limpar</button>
-                    </div>
-                </form>
-            </div>
+                    
+                    <div class="form-group"> <label for="diretoria-imagem-url">URL da Foto (3x4): https://lh3.googleusercontent.com/d/</label> <input type="text" id="diretoria-imagem-url" placeholder="https://.../foto.jpg"> </div>
+                    <div class="form-group"> <label for="diretoria-instagram">Link do Instagram (Opcional):</label> <input type="text" id="diretoria-instagram" placeholder="https://instagram.com/usuario"> </div>
+                    <div class="form-group"> <label for="diretoria-descricao">Descrição Breve (Opcional):</label> <textarea id="diretoria-descricao" placeholder="Breve descrição sobre o membro..."></textarea> </div>
+                    <button class="btn" id="btn-salvar-diretoria">Salvar Membro</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-diretoria" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Membros Cadastrados</h3>
+                <div class="form-group"> <label for="diretoria-pesquisar">Pesquisar Membro (por nome ou cargo):</label> <input type="text" id="diretoria-pesquisar" placeholder="Digite o nome ou cargo..."> </div>
+                <table class="admin-table">
+                    <thead> <tr> <th>Foto</th> <th>Nome</th> <th>Cargo</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="diretoria-lista"> <tr><td colspan="4">Carregando membros...</td></tr> </tbody>
+                </table>
+            </section>
+            
+            <section id="galeria" class="admin-section">
+                <h2><i class="fa fa-picture-o"></i> Gerenciar Galeria</h2>
+                <div class="admin-form">
+                    <h3 id="form-galeria-titulo">Adicionar Novo Álbum</h3>
+                    <input type="hidden" id="galeria-id">
+                    <div class="form-group"> <label for="galeria-titulo">Título (Obrigatório):</label> <input type="text" id="galeria-titulo" placeholder="Ex: Festa Junina 2025"> </div>
+                    <div class="form-group"> <label for="galeria-imagem-url">URL da Imagem de Capa (Obrigatório): https://lh3.googleusercontent.com/d/</label> <input type="text" id="galeria-imagem-url" placeholder="https://.../capa_festa_junina.jpg"> </div>
+                    <div class="form-group"> <label for="galeria-link">Link do Álbum (Google Drive, etc.) (Obrigatório):</label> <input type="text" id="galeria-link" placeholder="https://drive.google.com/..."> </div>
+                    <div class="form-group"> <label for="galeria-descricao">Descrição (Opcional):</label> <textarea id="galeria-descricao" placeholder="Breve descrição sobre o álbum..."></textarea> </div>
+                    <button class="btn" id="btn-salvar-galeria">Salvar Álbum</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-galeria" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Álbuns Cadastrados</h3>
+                <div class="form-group"> <label for="galeria-pesquisar">Pesquisar Álbum:</label> <input type="text" id="galeria-pesquisar" placeholder="Digite o título..."> </div>
+                <table class="admin-table">
+                    <thead> <tr> <th>Capa</th> <th>Título</th> <th>Link</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="galeria-lista"> <tr><td colspan="4">Carregando álbuns...</td></tr> </tbody>
+                </table>
+            </section>
+            
+            <section id="apoiadores" class="admin-section">
+                <h2><i class="fa fa-star"></i> Gerenciar Apoiadores</h2>
+                <div class="admin-form">
+                    <h3 id="form-apoiador-titulo">Adicionar Novo Apoiador</h3>
+                    <input type="hidden" id="apoiador-id">
+                    <div class="form-group"> <label for="apoiador-nome">Nome da Empresa/Pessoa (Obrigatório):</label> <input type="text" id="apoiador-nome" placeholder="Nome do apoiador"> </div>
+                    <div class="form-group"> <label for="apoiador-imagem-url">URL da Logo (Obrigatório):https://lh3.googleusercontent.com/d/</label> <input type="text" id="apoiador-imagem-url" placeholder="https://.../logo.png"> </div>
+                    <div class="form-group"> <label for="apoiador-endereco">Endereço (Opcional):</label> <input type="text" id="apoiador-endereco" placeholder="Rua, Número, Bairro"> </div>
+                    <div class="form-group"> <label for="apoiador-telefone">Telefone (Opcional):</label> <input type="text" id="apoiador-telefone" placeholder="(XX) 99999-9999"> </div>
+                    <div class="form-group"> <label for="apoiador-link">Link (Site/Instagram) (Obrigatório):</label> <input type="text" id="apoiador-link" placeholder="https://site.com.br"> </div>
+                    <button class="btn" id="btn-salvar-apoiador">Salvar Apoiador</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-apoiador" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Apoiadores Cadastrados</h3>
+                <div class="form-group"> <label for="apoiador-pesquisar">Pesquisar Apoiador:</label> <input type="text" id="apoiador-pesquisar" placeholder="Digite o nome..."> </div>
+                <table class="admin-table">
+                    <thead> <tr> <th>Logo</th> <th>Nome</th> <th>Telefone</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="apoiadores-lista"> <tr><td colspan="4">Carregando apoiadores...</td></tr> </tbody>
+                </table>
+            </section>
+            
+            <section id="paginas" class="admin-section">
+                <h2><i class="fa fa-file-text-o"></i> Gerenciar Páginas (Bairro/Home)</h2>
+                <p>Edite os blocos de texto e imagem que aparecem nas páginas `index.html` e `bairro.html`.</p>
+                <div class="admin-form" style="margin-bottom: 30px;">
+                    <h3>Página Home (index.html)</h3>
+                    <div class="form-group"> <label for="index-citacao">Citação em Destaque:</label> <textarea id="index-citacao" style="min-height: 100px;"></textarea> </div>
+                    <div class="form-group"> <label for="index-texto">Texto Principal (Nossa História):</label> <textarea id="index-texto" style="min-height: 150px;"></textarea> </div>
+                    <button class="btn" id="btn-salvar-index">Salvar Conteúdo da Home</button>
+                </div>
+                <div class="admin-form">
+                    <h3>Página O Bairro (bairro.html)</h3>
+                    <div class="form-group"> <label for="bairro-imagem-url">URL da Imagem (Endereço): https://lh3.googleusercontent.com/d/</label> <input type="text" id="bairro-imagem-url" placeholder="https://.../imagem.jpg"> </div>
+                    <div class="form-group"> <label for="bairro-texto">Texto (História do Bairro):</label> <textarea id="bairro-texto" style="min-height: 200px;"></textarea> </div>
+                    <button class="btn" id="btn-salvar-bairro">Salvar Conteúdo de "O Bairro"</button>
+                </div>
+            </section>
 
-            <div id="form-players" class="form-section hidden">
-                <h2 class="text-2xl font-bold mb-4">Gerenciar Jogadores e Comissão</h2>
-                <form id="players-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="hidden" id="players-id">
-                    <input type="text" id="players-name" placeholder="Nome do Jogador" class="form-input p-2" required>
-                    <select id="players-role" class="form-input p-2" required>
-                        <option value="">Selecione a Função</option>
-                        <option value="Técnico">Técnico</option>
-                        <option value="Auxiliar técnico">Auxiliar técnico</option>
-                        <option value="Preparador físico">Preparador físico</option>
-                        <option value="Fisioterapeuta">Fisioterapeuta</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Analista de desempenho">Analista de desempenho</option>
-                        <option value="Fotografo">Fotografo</option>
-                        <option value="Diretor">Diretor</option>
-                        <option value="Preparador de goleiros">Preparador de goleiros</option>
-                        <option value="Goleiro">Goleiro</option>
-                        <option value="Zagueiro e Volante">Zagueiro e Volante</option>
-                        <option value="Lateral">Lateral</option>
-                        <option value="Meio">Meio-Campo</option>
-                        <option value="Atacante">Atacante</option>
-                        <option value="Gandula">Gandula</option>
-                    </select>
-                    <textarea id="players-description" placeholder="Descrição (ex:Apelido, Número da camisa, Idade, Altura, Peso, Pé Dominante, )" rows="4" class="form-input p-2 col-span-1 md:col-span-2"></textarea>
-                    <div class="col-span-1 md:col-span-2 flex space-x-2">
-                        <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
-                        <button type="button" onclick="clearForm('players')" class="btn btn-secondary">Limpar</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="form-sponsors" class="form-section hidden">
-                <h2 class="text-2xl font-bold mb-4">Gerenciar Patrocinadores</h2>
-                <form id="sponsors-form" class="grid grid-cols-1 gap-4">
-                    <input type="hidden" id="sponsors-id">
-                    <input type="text" id="sponsors-name" placeholder="Nome do Patrocinador" class="form-input p-2" required>
-                    <div>
-                        <label for="sponsors-image-final" class="block text-sm font-medium mb-1">URL da Imagem</label>
-                        <div class="url-input-container">
-                            <span class="url-base" id="sponsors-baseUrl">https://lh3.googleusercontent.com/d/</span>
-                            <input type="text" id="sponsors-image-final" class="url-final-input" placeholder="cole o final da URL aqui" required>
-                        </div>
-                    </div>
-                    <input type="url" id="sponsors-link" placeholder="Link do Patrocinador (ex: Instagram, Website)" class="form-input p-2" required>
-                    <div class="flex space-x-2">
-                        <button type="submit" class="btn btn-primary">Adicionar / Salvar</button>
-                        <button type="button" onclick="clearForm('sponsors')" class="btn btn-secondary">Limpar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <h2 class="text-2xl font-bold mt-8 mb-4">Dados Atuais</h2>
-        <div id="data-display" class="mb-8">
-            </div>
+            <section id="frases" class="admin-section">
+                <h2><i class="fa fa-comment-o"></i> Gerenciar Frases Motivacionais (Home)</h2>
+                <p>Estas frases aparecerão em um carrossel na página inicial, acima do rodapé.</p>
+                <div class="admin-form">
+                    <h3 id="form-frase-titulo">Adicionar Nova Frase</h3>
+                    <input type="hidden" id="frase-id">
+                    <div class="form-group"> <label for="frase-texto">Texto da Frase (Obrigatório):</label> <textarea id="frase-texto" placeholder="Digite a frase motivacional aqui..."></textarea> </div>
+                    <button class="btn" id="btn-salvar-frase">Salvar Frase</button>
+                    <button class="btn-secondary" id="btn-cancelar-edicao-frase" style="display:none;">Cancelar Edição</button>
+                </div>
+                <hr style="margin: 30px 0;">
+                <h3>Frases Cadastradas</h3>
+                <table class="admin-table">
+                    <thead> <tr> <th>Texto da Frase</th> <th class="actions">Ações</th> </tr> </thead>
+                    <tbody id="frases-lista"> <tr><td colspan="2">Carregando frases...</td></tr> </tbody>
+                </table>
+            </section>
+        </main>
     </div>
+
+    <script> 
+        document.addEventListener('DOMContentLoaded', () => { 
+            console.log("Admin HTML Carregado. Configurando Navegação...");
+            const menuLinks = document.querySelectorAll('.admin-menu-link'); 
+            const sections = document.querySelectorAll('.admin-section'); 
+            
+            menuLinks.forEach(link => { 
+                link.addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    const targetId = link.getAttribute('href').substring(1); 
+                    sections.forEach(section => section.classList.remove('active')); 
+                    menuLinks.forEach(link => link.classList.remove('active')); 
+                    
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active'); 
+                        link.classList.add('active'); 
+                    } else {
+                        console.error(`Erro Crítico: Seção HTML não encontrada: ${targetId}`);
+                        alert(`Erro: A seção #${targetId} não foi encontrada no HTML. O arquivo admin.html está incompleto.`);
+                    }
+                }); 
+            }); 
+        }); 
+    </script>
     
     <script type="module">
-        // Importa a biblioteca principal do Firebase
+        console.log("Módulo Firebase iniciando...");
+        
+        // Importar funções do Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-        // Importa o módulo de Autenticação e as funções de login e logout
-        import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-        // Importa o módulo do Realtime Database (ou Firestore)
-        import { getDatabase, ref, push, set, onValue, remove, get } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
-        // Importa o módulo de Analytics (se você estiver usando)
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
+        import { getDatabase, ref, push, onValue, set, remove, query, orderByChild, get } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-        // --- CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE (Movido para o escopo principal) ---
-        // Seus dados de configuração do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyAz1fgGgpB7F05-watfO69vi6Mpzgw1uMs",
-            authDomain: "kendencefc-66b8b.firebaseapp.com",
-            projectId: "kendencefc-66b8b",
-            storageBucket: "kendencefc-66b8b.firebasestorage.app",
-            messagingSenderId: "405923587103",
-            appId: "1:405923587103:web:b74f3a37deff2f07bc212a",
-            measurementId: "G-HLVLC7D0VD"
-        };
+        // SUA CONFIGURAÇÃO
+        const firebaseConfig = { apiKey: "AIzaSyCAFbFIqzXC6qxgTWT6Mb5QNB-6ExCKswk", authDomain: "assoc-jjk.firebaseapp.com", projectId: "assoc-jjk", storageBucket: "assoc-jjk.firebasestorage.app", messagingSenderId: "912241957819", appId: "1:912241957819:web:91b11ec9aabf302717c29e", databaseURL: "https://assoc-jjk-default-rtdb.firebaseio.com" };
         
-        // Inicializa o Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app); 
-        // Armazena as referências de serviço em constantes globais
-        const database = getDatabase(app); 
-        const auth = getAuth(app); // Instância do Auth (Necessária para o login)
+        try {
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
+            const auth = getAuth(app); // INICIALIZA AUTH
+            console.log("Firebase Conectado!");
 
-        // --- Variáveis e Configurações Globais (RESTANTE DO CÓDIGO ORIGINAL) ---
-        const sections = {
-            upcomingGames: {
-                dbRef: 'upcomingGames',
-                formId: 'upcomingGames-form',
-                titleField: 'teams'
-            },
-            recentResults: {
-                dbRef: 'recentResults',
-                formId: 'recentResults-form',
-                titleField: 'match'
-            },
-            news: {
-                dbRef: 'news',
-                formId: 'news-form',
-                titleField: 'title'
-            },
-            players: {
-                dbRef: 'players',
-                formId: 'players-form',
-                titleField: 'name'
-            },
-            sponsors: {
-                dbRef: 'sponsors',
-                formId: 'sponsors-form',
-                titleField: 'name'
-            }
-        };
-        let currentSection = 'upcomingGames';
-        
-        // --- FUNÇÃO PARA TRADUZIR ERROS DO FIREBASE AUTH ---
-        function getFirebaseErrorMessage(errorCode) {
-             switch (errorCode) {
-                case 'auth/invalid-email':
-                    return 'O endereço de e-mail está mal formatado.';
-                case 'auth/user-not-found':
-                case 'auth/wrong-password':
-                    return 'E-mail ou senha inválidos.';
-                case 'auth/too-many-requests':
-                    return 'Acesso bloqueado temporariamente devido a muitas tentativas falhadas.';
-                default:
-                    console.error("Firebase Auth Error:", errorCode);
-                    return 'Ocorreu um erro desconhecido. Tente novamente.';
-            }
-        }
-        
-        // --- FUNÇÃO DE LOGOUT ---
-        window.logout = () => {
-            signOut(auth).then(() => {
-                alert('Logout realizado com sucesso!');
-                document.getElementById('admin-panel').style.display = 'none';
-                document.getElementById('login-screen').style.display = 'flex'; // Mostra a tela de login
-                // Limpa os campos após o logout
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-                document.getElementById('login-error').style.display = 'none';
-            }).catch((error) => {
-                console.error("Logout Error:", error);
-                alert('Erro ao fazer logout.');
+            // --- LÓGICA DE AUTENTICAÇÃO FIREBASE ---
+            const loginOverlay = document.getElementById('login-overlay');
+            const loginEmailInput = document.getElementById('login-email');
+            const loginPasswordInput = document.getElementById('login-password');
+            const loginButton = document.getElementById('login-button');
+            const loginError = document.getElementById('login-error');
+            const adminWrapper = document.querySelector('.admin-wrapper');
+            const logoutButton = document.getElementById('logout-button'); 
+            const loggedInUserP = document.getElementById('logged-in-user'); 
+            const loginFields = document.querySelectorAll('.login-fields'); 
+
+            loginButton.addEventListener('click', () => {
+                const email = loginEmailInput.value;
+                const password = loginPasswordInput.value;
+                loginError.style.display = 'none'; 
+                loginButton.disabled = true;
+                loginButton.innerText = "Entrando...";
+                
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        console.log("Login OK:", userCredential.user.email);
+                    })
+                    .catch((error) => {
+                        console.error("Erro no login:", error.code, error.message);
+                        loginError.innerText = "Email ou Senha inválidos!"; 
+                        if (error.code === 'auth/invalid-email') { loginError.innerText = "Formato de email inválido."; }
+                         else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') { loginError.innerText = "Email ou Senha inválidos!"; }
+                         else { loginError.innerText = "Erro ao tentar fazer login."; }
+                        loginError.style.display = 'block';
+                        loginButton.disabled = false;
+                        loginButton.innerText = "Entrar";
+                    });
             });
-        }
 
-        // --- LÓGICA DE LOGIN (AGORA COM FIREBASE AUTH) --- 
-        const loginForm = document.getElementById('login-form');
-        const loginScreen = document.getElementById('login-screen');
-        const adminPanel = document.getElementById('admin-panel');
-        const loginError = document.getElementById('login-error');
+            logoutButton.addEventListener('click', () => {
+                signOut(auth).catch((error) => { console.error("Erro no logout:", error); alert("Erro ao tentar sair."); });
+            });
 
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault(); 
-            
-            // Pega os valores dos campos (agora com id 'email')
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            
-            loginError.style.display = 'none'; // Esconde erros anteriores
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    console.log("Usuário logado:", user.email);
+                    loginOverlay.style.display = 'none'; 
+                    adminWrapper.style.display = 'flex'; 
+                    loggedInUserP.innerText = `Logado como: ${user.email}`;
+                    loggedInUserP.style.display = 'block';
+                    logoutButton.style.display = 'inline-block'; 
+                    loginFields.forEach(el => el.style.display = 'none'); 
 
-            // Chama a função de login do Firebase
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Login bem-sucedido
-                    loginScreen.style.display = 'none'; // Esconde a tela de login
-                    adminPanel.style.display = 'block'; // Mostra o painel admin
-                    
-                    // Inicializa a funcionalidade do painel admin APÓS o login
-                    initializeAdminPanel(); 
-                })
-                .catch((error) => {
-                    // Login falhou
-                    loginError.textContent = 'Erro de Login: ' + getFirebaseErrorMessage(error.code);
-                    loginError.style.display = 'block'; 
-                    passwordInput.value = ''; // Limpa a senha
-                    emailInput.focus();
-                });
-        });
-
-        // --- CÓDIGO DO PAINEL ADMIN (FUNÇÃO initializeAdminPanel REVISADA) ---
-        function initializeAdminPanel() {
-            // A inicialização do Firebase foi movida para fora desta função, 
-            // garantindo que 'database' e 'auth' estejam disponíveis globalmente.
-            // O restante do código de administração permanece o mesmo.
-
-            // ... Seu código original para gerenciar o painel:
-            window.showForm = (sectionName) => {
-                currentSection = sectionName;
-                document.querySelectorAll('.form-section').forEach(form => {
-                    form.classList.add('hidden');
-                });
-                document.getElementById(`form-${sectionName}`).classList.remove('hidden');
-                clearForm(currentSection);
-                loadData(currentSection);
-            };
-
-            window.clearForm = (sectionName) => {
-                const form = document.getElementById(sections[sectionName].formId);
-                form.reset();
-                const idInput = form.elements[`${sectionName}-id`];
-                if (idInput) idInput.value = ''; // Limpa o ID em modo de edição
-                const button = form.querySelector('button[type="submit"]');
-                if (button) button.textContent = 'Adicionar / Salvar';
-            };
-
-            window.loadData = (sectionName) => {
-                const display = document.getElementById('data-display');
-                display.innerHTML = '<p>Carregando dados...</p>';
-                
-                onValue(ref(database, sections[sectionName].dbRef), (snapshot) => {
-                    display.innerHTML = '';
-                    if (snapshot.exists()) {
-                        const data = snapshot.val();
-                        Object.keys(data).forEach(key => {
-                            const title = data[key][sections[sectionName].titleField];
-                            const itemDiv = document.createElement('div');
-                            itemDiv.className = 'bg-gray-700 p-3 rounded flex justify-between items-center mb-2';
-                            itemDiv.innerHTML = `<span>${title}</span><div><button onclick="editItem('${key}')" class="btn btn-secondary py-1 px-2 text-sm mr-2">Editar</button><button onclick="deleteItem('${key}')" class="btn btn-danger py-1 px-2 text-sm">Excluir</button></div>`;
-                            display.appendChild(itemDiv);
-                        });
-                    } else {
-                        display.innerHTML = '<p>Nenhum dado encontrado.</p>';
-                    }
-                });
-            };
-
-            function handleFormSubmit(event) {
-                event.preventDefault();
-                const section = sections[currentSection];
-                const form = event.target;
-                const idInput = form.elements[`${currentSection}-id`]; // Acessa o input hidden pelo ID padrão
-                const id = idInput ? idInput.value : null; // Pega o valor se o input existir
-                const data = {};
-                for (const element of form.elements) {
-                    if (element.name && element.name !== 'id') {
-                        let value = element.value;
-                        // Lógica de manipulação de data/hora
-                        if (currentSection === 'upcomingGames' || currentSection === 'recentResults') {
-                            if (element.name === 'date-input') {
-                                data.date = value; // Guarda a data separadamente por enquanto
-                                continue;
-                            } else if (element.name === 'time-input') {
-                                if (data.date) {
-                                    // Combina data e hora para criar um timestamp
-                                    const combinedDateTime = new Date(`${data.date}T${value}:00`);
-                                    data.date = combinedDateTime.getTime();
-                                }
-                                continue;
-                            }
-                        }
-                        // Lógica para combinar URL
-                        if ((currentSection === 'news' || currentSection === 'sponsors') && element.name === 'image-final') {
-                            const baseUrl = document.getElementById(`${currentSection}-baseUrl`).innerText;
-                            value = baseUrl + value;
-                            data.image = value;
-                            continue;
-                        }
-                        
-                        // Garante que a data correta seja salva para 'news'
-                         if (currentSection === 'news' && element.name === 'date') {
-                            data.date = new Date(value).getTime();
-                            continue;
-                        }
-                        
-                        data[element.name] = value;
-                    }
+                } else {
+                    console.log("Usuário deslogado");
+                    loginOverlay.style.display = 'flex'; 
+                    adminWrapper.style.display = 'none'; 
+                    loggedInUserP.style.display = 'none';
+                    logoutButton.style.display = 'none'; 
+                    loginFields.forEach(el => el.style.display = 'block'); 
+                    loginButton.disabled = false;
+                    loginButton.innerText = "Entrar";
+                    loginPasswordInput.value = ""; 
+                    loginError.style.display = 'none'; 
                 }
-                
-                const dbPath = id ? ref(database, `${section.dbRef}/${id}`) : push(ref(database, section.dbRef));
-                const operation = set(dbPath, data);
-                
-                operation
-                    .then(() => alert(`Item ${id ? 'salvo' : 'adicionado'} com sucesso!`))
-                    .catch(error => alert(error.message))
-                    .finally(() => clearForm(currentSection));
-            }
+            });
+            // --- FIM DA AUTENTICAÇÃO ---
 
-            window.editItem = (key) => {
-                const section = sections[currentSection];
-                get(ref(database, `${section.dbRef}/${key}`)).then((snapshot) => {
-                    if (snapshot.exists()) {
-                        const data = snapshot.val();
-                        const form = document.getElementById(section.formId);
-                        
-                        // 1. Define o ID para modo de edição
-                        document.getElementById(`${currentSection}-id`).value = key;
-                        form.querySelector('button[type="submit"]').textContent = 'Salvar Edição';
-
-                        // 2. Preenche os campos
-                        for (const element of form.elements) {
-                            if (element.name) {
-                                // Lógica para campos de URL combinada
-                                if (element.name === 'image-final') {
-                                    // A lógica de preenchimento de URL é tratada no snippet a seguir
-                                    continue;
-                                } 
-                                // Lógica para campos de data/hora (que precisam ser separados)
-                                else if (element.name === 'date-input' || element.name === 'time-input') {
-                                    continue;
-                                }
-                                // Lógica para outros campos
-                                else if (data[element.name] !== undefined) {
-                                    element.value = data[element.name];
-                                }
-                                
-                                // Caso especial para 'news-date'
-                                if (currentSection === 'news' && element.name === 'date') {
-                                    const dateObj = new Date(data.date);
-                                    element.value = dateObj.toISOString().split('T')[0];
-                                }
-                            }
-                        }
-                        
-                        // Lógica de preenchimento para data/hora separadas
-                        if ((currentSection === 'upcomingGames' || currentSection === 'recentResults')) {
-                            const dateObj = new Date(data.date);
-                            document.getElementById(`${currentSection}-date-input`).value = dateObj.toISOString().split('T')[0];
-                            document.getElementById(`${currentSection}-time-input`).value = dateObj.toTimeString().split(' ')[0].substring(0, 5);
-                        }
-                        
-                        // Lógica de preenchimento para URL final
-                        if ((currentSection === 'news' || currentSection === 'sponsors') && data.image) {
-                            const baseUrlElement = document.getElementById(`${currentSection}-baseUrl`);
-                            const urlFinalElement = document.getElementById(`${currentSection}-image-final`);
-                            if (baseUrlElement && urlFinalElement) {
-                                const baseUrl = baseUrlElement.innerText;
-                                if (data.image.startsWith(baseUrl)) {
-                                    urlFinalElement.value = data.image.substring(baseUrl.length);
-                                } else {
-                                    urlFinalElement.value = data.image;
-                                }
-                            }
-                        }
-
-                        window.scrollTo(0, 0); // Rola para o topo para ver o formulário
-                    }
-                });
-            };
-
-            window.deleteItem = (key) => {
-                if (confirm('Tem certeza que deseja excluir este item?')) {
-                    remove(ref(database, `${sections[currentSection].dbRef}/${key}`))
-                        .then(() => alert('Item excluído com sucesso!'))
-                        .catch(error => alert(error.message));
-                }
-            };
-
-            // --- FUNÇÕES DE BACKUP E RESTAURAÇÃO ---
-            window.backupData = async () => { /* ... código ... */ };
-            window.triggerRestore = () => { /* ... código ... */ };
-            window.restoreData = (event) => { /* ... código ... */ };
+            // --- FUNÇÃO AJUDANTE FORMATAR DATA (Agenda) ---
+            function formatarDataHora(isoString) { if (!isoString) return 'Sem data'; try { const data = new Date(isoString); const dia = String(data.getDate()).padStart(2, '0'); const mes = String(data.getMonth() + 1).padStart(2, '0'); const ano = data.getFullYear(); const hora = String(data.getHours()).padStart(2, '0'); const min = String(data.getMinutes()).padStart(2, '0'); return `${dia}/${mes}/${ano} às ${hora}:${min}`; } catch (e) { return isoString; } }
             
-            window.backupData = async () => {
-                try {
-                    const snapshot = await get(ref(database));
-                    if (!snapshot.exists()) {
-                        alert("Nenhum dado para fazer backup.");
+            // --- MÓDULO DE BACKUP (AGORA FUNCIONA) ---
+            try {
+                const btnBackup = document.getElementById('btn-backup');
+                const btnRestore = document.getElementById('btn-restore'); 
+
+                btnBackup.addEventListener('click', async () => {
+                    if (!confirm("Isso fará o download de todos os dados do site (notícias, agenda, etc.) em um único arquivo JSON. Deseja continuar?")) {
                         return;
                     }
-                    const data = snapshot.val();
-                    const jsonData = JSON.stringify(data, null, 2);
-                    const blob = new Blob([jsonData], { type: 'application/json' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    const date = new Date().toISOString().slice(0, 10);
-                    a.download = `backup-kendencefc-${date}.json`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    alert("Backup realizado com sucesso! Verifique sua pasta de downloads.");
-                } catch (error) {
-                    alert("Erro ao fazer backup: " + error.message);
-                }
-            };
-            
-            window.triggerRestore = () => {
-                document.getElementById('restore-file-input').click();
-            };
-
-            window.restoreData = (event) => {
-                const file = event.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
+                    console.log("Iniciando backup...");
+                    btnBackup.disabled = true;
+                    btnBackup.innerText = "Preparando dados...";
                     try {
-                        const data = JSON.parse(e.target.result);
-                        if (confirm('ATENÇÃO: Restaurar o backup substituirá TODOS os dados existentes. Deseja continuar?')) {
-                            // Define o objeto raiz no Firebase com os dados do backup
-                            set(ref(database), data)
-                                .then(() => {
-                                    alert("Restauração concluída com sucesso!");
-                                    // Recarrega os dados da seção atual após a restauração
-                                    loadData(currentSection); 
-                                })
-                                .catch(error => alert("Erro ao restaurar dados: " + error.message));
+                        const dbRef = ref(database); // Pega a raiz do banco
+                        const snapshot = await get(dbRef); 
+                        if (!snapshot.exists()) {
+                            alert("Não há dados no banco de dados para fazer backup.");
+                            return;
                         }
+                        const backupData = snapshot.val();
+                        const dataStr = JSON.stringify(backupData, null, 2); 
+                        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                        const dataISO = new Date().toISOString().split('T')[0]; 
+                        const nomeArquivo = `backup_amjjk_${dataISO}.json`;
+                        const linkDownload = document.createElement('a');
+                        linkDownload.href = URL.createObjectURL(dataBlob);
+                        linkDownload.download = nomeArquivo;
+                        document.body.appendChild(linkDownload); 
+                        linkDownload.click();
+                        document.body.removeChild(linkDownload); 
+                        alert("Backup concluído! Verifique seus downloads.");
                     } catch (error) {
-                        alert("Erro ao ler o arquivo: Formato JSON inválido.");
-                    }
-                };
-                reader.readAsText(file);
-                // Limpa o input file para que o mesmo arquivo possa ser re-selecionado
-                event.target.value = ''; 
-            };
-            
-
-            function setupFormNames() {
-                Object.keys(sections).forEach(sectionName => {
-                    const form = document.getElementById(sections[sectionName].formId);
-                    for (const element of form.elements) {
-                        // Atribui 'name' baseado no 'id', removendo o prefixo da seção e sufixos comuns
-                        // Ignora o input hidden de ID
-                        if (element.id && !element.name && element.type !== 'hidden') { 
-                           let name = element.id.replace(`${sectionName}-`, '').replace('-input', '');
-                           // Caso especial para textareas ou outros elementos sem sufixo padrão
-                           if (name === element.id) name = element.id.replace(`${sectionName}-`, ''); 
-                           element.name = name;
-                        }
+                        console.error("Erro ao fazer backup:", error);
+                        alert("Erro ao fazer backup. Verifique o console (F12) e as regras de leitura do Firebase.");
+                    } finally {
+                        btnBackup.disabled = false;
+                        btnBackup.innerText = "Fazer Backup (Baixar JSON)";
                     }
                 });
-            }
-            
-            // --- INICIALIZAÇÃO DO PAINEL ADMIN ---
-            setupFormNames();
-            Object.keys(sections).forEach(key => {
-                document.getElementById(sections[key].formId).addEventListener('submit', handleFormSubmit);
-            });
-            showForm(currentSection); // Mostra o formulário inicial
+                
+                btnRestore.addEventListener('click', () => {
+                    alert("A restauração de backup deve ser feita manualmente no Console do Firebase para evitar perda de dados.\n\n1. Vá ao Realtime Database.\n2. Clique nos 3 pontos (menu Mais).\n3. Selecione 'Importar JSON' e envie o arquivo de backup.");
+                });
+                console.log("Módulo Backup OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Backup:", e); }
+
+            // --- MÓDULO DE NOTÍCIAS ---
+            try {
+                const formNoticiaTitulo = document.getElementById('form-noticia-titulo'); const noticiaId = document.getElementById('noticia-id'); const noticiaTitulo = document.getElementById('noticia-titulo'); const noticiaData = document.getElementById('noticia-data'); const noticiaImagemUrl = document.getElementById('noticia-imagem-url');  const noticiaTexto = document.getElementById('noticia-texto'); const btnSalvarNoticia = document.getElementById('btn-salvar-noticia'); const btnCancelarEdicaoNoticia = document.getElementById('btn-cancelar-edicao-noticia'); const noticiasLista = document.getElementById('noticias-lista'); const noticiaPesquisar = document.getElementById('noticia-pesquisar'); const dbRefNoticias = ref(database, 'noticias'); let allNoticias = {};  let editandoNoticia = false; function resetarFormularioNoticia() { formNoticiaTitulo.innerText = "Adicionar Nova Notícia"; noticiaId.value = ""; noticiaTitulo.value = ""; noticiaData.value = ""; noticiaTexto.value = ""; noticiaImagemUrl.value = ""; btnCancelarEdicaoNoticia.style.display = "none"; editandoNoticia = false; } btnSalvarNoticia.addEventListener('click', async () => { const titulo = noticiaTitulo.value; const data = noticiaData.value; const texto = noticiaTexto.value; const imageUrl = noticiaImagemUrl.value; const id = noticiaId.value; if (!titulo) { alert('O Título é obrigatório.'); return; } btnSalvarNoticia.disabled = true; btnSalvarNoticia.innerText = "Salvando..."; const dadosNoticia = { titulo: titulo, data: data || "", texto: texto || "", imageUrl: imageUrl || "" }; try { if (editandoNoticia && id) { await set(ref(database, `noticias/${id}`), dadosNoticia); alert('Notícia atualizada com sucesso!'); } else { await push(dbRefNoticias, dadosNoticia); alert('Notícia salva com sucesso!'); } resetarFormularioNoticia(); } catch (error) { console.error("Erro ao SALVAR Noticia:", error); alert("Erro ao salvar notícia. Verifique as regras do Firebase."); } finally { btnSalvarNoticia.disabled = false; btnSalvarNoticia.innerText = "Salvar Notícia"; } }); function exibirNoticias(filtro = '') { noticiasLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allNoticias).sort((a, b) => new Date(allNoticias[b].data || 0) - new Date(allNoticias[a].data || 0)); if (chavesOrdenadas.length === 0) { noticiasLista.innerHTML = '<tr><td colspan="4">Nenhuma notícia cadastrada.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const noticia = allNoticias[key]; if (filtro && !noticia.titulo.toLowerCase().includes(filtroLowerCase)) { continue; } count++; const dataFormatada = noticia.data ? noticia.data.split('-').reverse().join('/') : 'Sem data'; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${noticia.imageUrl || 'https://via.placeholder.com/100x50.png?text=Sem+Img'}" alt="Imagem"></td> <td>${noticia.titulo}</td> <td>${dataFormatada}</td> <td> <button class="btn-secondary btn-editar-noticia" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-noticia" data-id="${key}">Excluir</button> </td> `; noticiasLista.appendChild(tr); } if (count === 0 && filtro) { noticiasLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefNoticias, orderByChild('data')), (snapshot) => { if (snapshot.exists()) { allNoticias = snapshot.val() || {}; exibirNoticias(noticiaPesquisar.value); } else { allNoticias = {}; noticiasLista.innerHTML = '<tr><td colspan="4">Nenhuma notícia cadastrada.</td></tr>'; } }, (error) => { console.error("Erro ao LER Notícias:", error); noticiasLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar notícias. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); noticiaPesquisar.addEventListener('keyup', () => exibirNoticias(noticiaPesquisar.value)); noticiasLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-noticia')) { if (confirm(`Tem certeza que deseja excluir a notícia "${allNoticias[id]?.titulo}"?`)) { try { await remove(ref(database, `noticias/${id}`)); alert('Notícia excluída!'); } catch (error) { alert("Erro ao excluir notícia."); } } } if (target.classList.contains('btn-editar-noticia')) { const noticia = allNoticias[id]; if (!noticia) return; formNoticiaTitulo.innerText = "Editar Notícia"; noticiaId.value = id; noticiaTitulo.value = noticia.titulo; noticiaData.value = noticia.data || ""; noticiaTexto.value = noticia.texto || ""; noticiaImagemUrl.value = noticia.imageUrl || ""; btnCancelarEdicaoNoticia.style.display = "inline-block"; editandoNoticia = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoNoticia.addEventListener('click', resetarFormularioNoticia);
+                console.log("Módulo Notícias OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Notícias:", e); }
+
+            // --- MÓDULO DE SERVIÇOS ---
+            try {
+                const formServicoTitulo = document.getElementById('form-servico-titulo'); const servicoId = document.getElementById('servico-id'); const servicoNome = document.getElementById('servico-nome'); const servicoIcone = document.getElementById('servico-icone'); const servicoTexto = document.getElementById('servico-texto'); const servicoEndereco = document.getElementById('servico-endereco'); const servicoHorario = document.getElementById('servico-horario'); const servicoTelefone = document.getElementById('servico-telefone'); const servicoLink = document.getElementById('servico-link'); const btnSalvarServico = document.getElementById('btn-salvar-servico'); const btnCancelarEdicaoServico = document.getElementById('btn-cancelar-edicao-servico'); const servicosLista = document.getElementById('servicos-lista'); const servicoPesquisar = document.getElementById('servico-pesquisar'); const dbRefServicos = ref(database, 'servicos'); let allServicos = {}; let editandoServico = false; function resetarFormularioServico() { formServicoTitulo.innerText = "Adicionar Novo Serviço"; servicoId.value = ""; servicoNome.value = ""; servicoIcone.value = ""; servicoTexto.value = ""; servicoEndereco.value = ""; servicoHorario.value = ""; servicoTelefone.value = ""; servicoLink.value = ""; btnCancelarEdicaoServico.style.display = "none"; editandoServico = false; } btnSalvarServico.addEventListener('click', async () => { const nome = servicoNome.value; const id = servicoId.value; if (!nome) { alert('O campo "Nome" é obrigatório.'); return; } btnSalvarServico.disabled = true; btnSalvarServico.innerText = "Salvando..."; const dadosServico = { nome: nome, icone: servicoIcone.value || "", texto: servicoTexto.value || "", endereco: servicoEndereco.value || "", horario: servicoHorario.value || "", telefone: servicoTelefone.value || "", link: servicoLink.value || "" }; try { if (editandoServico && id) { await set(ref(database, `servicos/${id}`), dadosServico); alert('Serviço atualizado com sucesso!'); } else { await push(dbRefServicos, dadosServico); alert('Serviço salvo com sucesso!'); } resetarFormularioServico(); } catch (error) { console.error("Erro ao SALVAR Servico:", error); alert("Erro ao salvar serviço. Verifique as regras do Firebase."); } finally { btnSalvarServico.disabled = false; btnSalvarServico.innerText = "Salvar Serviço"; } }); function exibirServicos(filtro = '') { servicosLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allServicos).sort((a, b) => (allServicos[a]?.nome || '').localeCompare(allServicos[b]?.nome || '')); if (chavesOrdenadas.length === 0) { servicosLista.innerHTML = '<tr><td colspan="4">Nenhum serviço cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const servico = allServicos[key]; if (filtro && !(servico?.nome || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td>${servico?.nome || ''}</td> <td>${servico?.telefone || 'N/A'}</td> <td>${servico?.endereco || 'N/A'}</td> <td> <button class="btn-secondary btn-editar-servico" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-servico" data-id="${key}">Excluir</button> </td> `; servicosLista.appendChild(tr); } if (count === 0 && filtro) { servicosLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefServicos, orderByChild('nome')), (snapshot) => { if (snapshot.exists()) { allServicos = snapshot.val() || {}; exibirServicos(servicoPesquisar.value); } else { allServicos = {}; servicosLista.innerHTML = '<tr><td colspan="4">Nenhum serviço cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Serviços:", error); servicosLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar serviços. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); servicoPesquisar.addEventListener('keyup', () => exibirServicos(servicoPesquisar.value)); servicosLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-servico')) { if (confirm(`Tem certeza que deseja excluir o serviço "${allServicos[id]?.nome}"?`)) { try { await remove(ref(database, `servicos/${id}`)); alert('Serviço excluído!'); } catch (error) { alert("Erro ao excluir serviço."); } } } if (target.classList.contains('btn-editar-servico')) { const servico = allServicos[id]; if (!servico) return; formServicoTitulo.innerText = "Editar Serviço"; servicoId.value = id; servicoNome.value = servico.nome; servicoIcone.value = servico.icone || ""; servicoTexto.value = servico.texto || ""; servicoEndereco.value = servico.endereco || ""; servicoHorario.value = servico.horario || ""; servicoTelefone.value = servico.telefone || ""; servicoLink.value = servico.link || ""; btnCancelarEdicaoServico.style.display = "inline-block"; editandoServico = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoServico.addEventListener('click', resetarFormularioServico);
+                console.log("Módulo Serviços OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Serviços:", e); }
+
+            // --- MÓDULO DE PÁGINAS ---
+            try {
+                const indexCitacao = document.getElementById('index-citacao'); const indexTexto = document.getElementById('index-texto'); const btnSalvarIndex = document.getElementById('btn-salvar-index'); const bairroImagemUrl = document.getElementById('bairro-imagem-url'); const bairroTexto = document.getElementById('bairro-texto'); const btnSalvarBairro = document.getElementById('btn-salvar-bairro'); const dbRefPaginaIndex = ref(database, 'paginas/index'); const dbRefPaginaBairro = ref(database, 'paginas/bairro'); onValue(dbRefPaginaIndex, (snapshot) => { if (snapshot.exists()) { const dados = snapshot.val(); indexCitacao.value = dados.citacao || ""; indexTexto.value = dados.texto || ""; } }); onValue(dbRefPaginaBairro, (snapshot) => { if (snapshot.exists()) { const dados = snapshot.val(); bairroImagemUrl.value = dados.imageUrl || ""; bairroTexto.value = dados.texto || ""; } }); btnSalvarIndex.addEventListener('click', async () => { btnSalvarIndex.disabled = true; btnSalvarIndex.innerText = "Salvando..."; const dados = { citacao: indexCitacao.value || "", texto: indexTexto.value || "" }; try { await set(dbRefPaginaIndex, dados); alert('Conteúdo da Página Home salvo com sucesso!'); } catch (error) { console.error("Erro ao SALVAR Pagina/Index:", error); alert('Erro ao salvar. Verifique as Regras do Firebase.'); } finally { btnSalvarIndex.disabled = false; btnSalvarIndex.innerText = "Salvar Conteúdo da Home"; } }); btnSalvarBairro.addEventListener('click', async () => { btnSalvarBairro.disabled = true; btnSalvarBairro.innerText = "Salvando..."; const dados = { imageUrl: bairroImagemUrl.value || "", texto: bairroTexto.value || "" }; try { await set(dbRefPaginaBairro, dados); alert('Conteúdo da Página "O Bairro" salvo com sucesso!'); } catch (error) { console.error("Erro ao SALVAR Pagina/Bairro:", error); alert('Erro ao salvar. Verifique as Regras do Firebase.'); } finally { btnSalvarBairro.disabled = false; btnSalvarBairro.innerText = 'Salvar Conteúdo de "O Bairro"'; } });
+                console.log("Módulo Páginas OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Páginas:", e); }
+
+            // --- MÓDULO DE AGENDA ---
+            try {
+                const formAgendaTitulo = document.getElementById('form-agenda-titulo'); const agendaId = document.getElementById('agenda-id'); const agendaTitulo = document.getElementById('agenda-titulo'); const agendaData = document.getElementById('agenda-data'); const agendaLocal = document.getElementById('agenda-local'); const agendaDescricao = document.getElementById('agenda-descricao'); const btnSalvarAgenda = document.getElementById('btn-salvar-agenda'); const btnCancelarEdicaoAgenda = document.getElementById('btn-cancelar-edicao-agenda'); const agendaLista = document.getElementById('agenda-lista'); const agendaPesquisar = document.getElementById('agenda-pesquisar'); const dbRefAgenda = ref(database, 'agenda'); let allAgenda = {}; let editandoAgenda = false; function resetarFormularioAgenda() { formAgendaTitulo.innerText = "Adicionar Novo Evento"; agendaId.value = ""; agendaTitulo.value = ""; agendaData.value = ""; agendaLocal.value = ""; agendaDescricao.value = ""; btnCancelarEdicaoAgenda.style.display = "none"; editandoAgenda = false; } btnSalvarAgenda.addEventListener('click', async () => { const titulo = agendaTitulo.value; const id = agendaId.value; if (!titulo) { alert('O campo "Título" é obrigatório.'); return; } btnSalvarAgenda.disabled = true; btnSalvarAgenda.innerText = "Salvando..."; const dadosAgenda = { titulo: titulo, data: agendaData.value || "", local: agendaLocal.value || "", descricao: agendaDescricao.value || "" }; try { if (editandoAgenda && id) { await set(ref(database, `agenda/${id}`), dadosAgenda); alert('Evento atualizado com sucesso!'); } else { await push(dbRefAgenda, dadosAgenda); alert('Evento salvo com sucesso!'); } resetarFormularioAgenda(); } catch (error) { console.error("Erro ao SALVAR Agenda:", error); alert("Erro ao salvar evento. Verifique as regras do Firebase."); } finally { btnSalvarAgenda.disabled = false; btnSalvarAgenda.innerText = "Salvar Evento"; } }); function exibirAgenda(filtro = '') { agendaLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allAgenda).sort((a, b) => new Date(allAgenda[b].data || 0) - new Date(allAgenda[a].data || 0)); if (chavesOrdenadas.length === 0) { agendaLista.innerHTML = '<tr><td colspan="4">Nenhum evento cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const evento = allAgenda[key]; if (filtro && !(evento?.titulo || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td>${evento?.titulo || ''}</td> <td>${formatarDataHora(evento?.data)}</td> <td>${evento?.local || 'N/A'}</td> <td> <button class="btn-secondary btn-editar-agenda" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-agenda" data-id="${key}">Excluir</button> </td> `; agendaLista.appendChild(tr); } if (count === 0 && filtro) { agendaLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefAgenda, orderByChild('data')), (snapshot) => { if (snapshot.exists()) { allAgenda = snapshot.val() || {}; exibirAgenda(agendaPesquisar.value); } else { allAgenda = {}; agendaLista.innerHTML = '<tr><td colspan="4">Nenhum evento cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Agenda:", error); agendaLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar agenda. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); agendaPesquisar.addEventListener('keyup', () => exibirAgenda(agendaPesquisar.value)); agendaLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-agenda')) { if (confirm(`Tem certeza que deseja excluir o evento "${allAgenda[id]?.titulo}"?`)) { try { await remove(ref(database, `agenda/${id}`)); alert('Evento excluído!'); } catch (error) { alert("Erro ao excluir evento."); } } } if (target.classList.contains('btn-editar-agenda')) { const evento = allAgenda[id]; if (!evento) return; formAgendaTitulo.innerText = "Editar Evento"; agendaId.value = id; agendaTitulo.value = evento.titulo; agendaData.value = evento.data || ""; agendaLocal.value = evento.local || ""; agendaDescricao.value = evento.descricao || ""; btnCancelarEdicaoAgenda.style.display = "inline-block"; editandoAgenda = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoAgenda.addEventListener('click', resetarFormularioAgenda);
+                console.log("Módulo Agenda OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Agenda:", e); }
+
+            // --- MÓDULO DE DIRETORIA (Atualizado com <select>) ---
+            try {
+                const diretoriaGestao = document.getElementById('diretoria-gestao'); const btnSalvarGestao = document.getElementById('btn-salvar-gestao'); const formDiretoriaTitulo = document.getElementById('form-diretoria-titulo'); const diretoriaId = document.getElementById('diretoria-id'); const diretoriaNome = document.getElementById('diretoria-nome'); const diretoriaCargo = document.getElementById('diretoria-cargo'); const diretoriaImagemUrl = document.getElementById('diretoria-imagem-url'); const diretoriaInstagram = document.getElementById('diretoria-instagram'); const diretoriaDescricao = document.getElementById('diretoria-descricao'); const btnSalvarDiretoria = document.getElementById('btn-salvar-diretoria'); const btnCancelarEdicaoDiretoria = document.getElementById('btn-cancelar-edicao-diretoria'); const diretoriaLista = document.getElementById('diretoria-lista'); const diretoriaPesquisar = document.getElementById('diretoria-pesquisar'); const dbRefGestao = ref(database, 'paginas/diretoria_gestao'); const dbRefDiretoria = ref(database, 'diretoria'); let allDiretoria = {}; let editandoDiretoria = false; 
+                
+                // NOVA ORDEM DE CARGOS
+                const roleOrderAdmin = [ "Presidente", "Vice-Presidente", "1º Secretário", "2º Secretário", "Tesoureiro", "Conselho Fiscal", "Suplente", "Associado", "Colaborador" ]; 
+                // NOVA FUNÇÃO DE ORDENAÇÃO
+                function getRoleSortKey(role = '') { 
+                    const index = roleOrderAdmin.indexOf(role); // Busca exata
+                    return index === -1 ? 99 : index; 
+                } 
+                
+                btnSalvarGestao.addEventListener('click', async () => { btnSalvarGestao.disabled = true; btnSalvarGestao.innerText = "Salvando..."; try { await set(dbRefGestao, diretoriaGestao.value || ""); alert('Data da Gestão salva com sucesso!'); } catch (e) { alert('Erro ao salvar: ' + e.message); } finally { btnSalvarGestao.disabled = false; btnSalvarGestao.innerText = "Salvar Gestão"; } }); onValue(dbRefGestao, (snapshot) => { diretoriaGestao.value = snapshot.val() || ""; }); function resetarFormularioDiretoria() { formDiretoriaTitulo.innerText = "Adicionar Novo Membro"; diretoriaId.value = ""; diretoriaNome.value = ""; diretoriaCargo.value = ""; diretoriaImagemUrl.value = ""; diretoriaInstagram.value = ""; diretoriaDescricao.value = ""; btnCancelarEdicaoDiretoria.style.display = "none"; editandoDiretoria = false; } btnSalvarDiretoria.addEventListener('click', async () => { const nome = diretoriaNome.value; const cargo = diretoriaCargo.value; const id = diretoriaId.value; if (!nome || !cargo) { alert('Os campos "Nome" e "Cargo" são obrigatórios.'); return; } btnSalvarDiretoria.disabled = true; btnSalvarDiretoria.innerText = "Salvando..."; const dadosMembro = { nome: nome, cargo: cargo, imageUrl: diretoriaImagemUrl.value || "", instagram: diretoriaInstagram.value || "", descricao: diretoriaDescricao.value || "" }; try { if (editandoDiretoria && id) { await set(ref(database, `diretoria/${id}`), dadosMembro); alert('Membro atualizado com sucesso!'); } else { await push(dbRefDiretoria, dadosMembro); alert('Membro salvo com sucesso!'); } resetarFormularioDiretoria(); } catch (error) { console.error("Erro ao SALVAR Diretoria:", error); alert("Erro ao salvar membro. Verifique as regras do Firebase."); } finally { btnSalvarDiretoria.disabled = false; btnSalvarDiretoria.innerText = "Salvar Membro"; } }); function exibirDiretoria(filtro = '') { diretoriaLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allDiretoria).sort((a, b) => { const cargoA = getRoleSortKey(allDiretoria[a]?.cargo); const cargoB = getRoleSortKey(allDiretoria[b]?.cargo); if (cargoA === cargoB) { return (allDiretoria[a]?.nome || '').localeCompare(allDiretoria[b]?.nome || ''); } return cargoA - cargoB; }); if (chavesOrdenadas.length === 0) { diretoriaLista.innerHTML = '<tr><td colspan="4">Nenhum membro cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const membro = allDiretoria[key]; if (filtro && !(membro?.nome || '').toLowerCase().includes(filtroLowerCase) && !(membro?.cargo || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${membro?.imageUrl || 'https://via.placeholder.com/50x65.png?text=3x4'}" alt="Foto"></td> <td>${membro?.nome || ''}</td> <td>${membro?.cargo || ''}</td> <td> <button class="btn-secondary btn-editar-diretoria" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-diretoria" data-id="${key}">Excluir</button> </td> `; diretoriaLista.appendChild(tr); } if (count === 0 && filtro) { diretoriaLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(dbRefDiretoria, (snapshot) => { if (snapshot.exists()) { allDiretoria = snapshot.val() || {}; exibirDiretoria(diretoriaPesquisar.value); } else { allDiretoria = {}; diretoriaLista.innerHTML = '<tr><td colspan="4">Nenhum membro cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Diretoria:", error); diretoriaLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar diretoria. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); diretoriaPesquisar.addEventListener('keyup', () => exibirDiretoria(diretoriaPesquisar.value)); diretoriaLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-diretoria')) { if (confirm(`Tem certeza que deseja excluir o membro "${allDiretoria[id]?.nome}"?`)) { try { await remove(ref(database, `diretoria/${id}`)); alert('Membro excluído!'); } catch (error) { alert("Erro ao excluir membro."); } } } if (target.classList.contains('btn-editar-diretoria')) { const membro = allDiretoria[id]; if (!membro) return; formDiretoriaTitulo.innerText = "Editar Membro"; diretoriaId.value = id; diretoriaNome.value = membro.nome; diretoriaCargo.value = membro.cargo; diretoriaImagemUrl.value = membro.imageUrl || ""; diretoriaInstagram.value = membro.instagram || ""; diretoriaDescricao.value = membro.descricao || ""; btnCancelarEdicaoDiretoria.style.display = "inline-block"; editandoDiretoria = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoDiretoria.addEventListener('click', resetarFormularioDiretoria);
+                console.log("Módulo Diretoria OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Diretoria:", e); }
+
+            // --- MÓDULO DE GALERIA ---
+            try {
+                const formGaleriaTitulo = document.getElementById('form-galeria-titulo'); const galeriaId = document.getElementById('galeria-id'); const galeriaTitulo = document.getElementById('galeria-titulo'); const galeriaImagemUrl = document.getElementById('galeria-imagem-url'); const galeriaLink = document.getElementById('galeria-link'); const galeriaDescricao = document.getElementById('galeria-descricao'); const btnSalvarGaleria = document.getElementById('btn-salvar-galeria'); const btnCancelarEdicaoGaleria = document.getElementById('btn-cancelar-edicao-galeria'); const galeriaLista = document.getElementById('galeria-lista'); const galeriaPesquisar = document.getElementById('galeria-pesquisar'); const dbRefGaleria = ref(database, 'galeria'); let allGaleria = {}; let editandoGaleria = false; function resetarFormularioGaleria() { formGaleriaTitulo.innerText = "Adicionar Novo Álbum"; galeriaId.value = ""; galeriaTitulo.value = ""; galeriaImagemUrl.value = ""; galeriaLink.value = ""; galeriaDescricao.value = ""; btnCancelarEdicaoGaleria.style.display = "none"; editandoGaleria = false; } btnSalvarGaleria.addEventListener('click', async () => { const titulo = galeriaTitulo.value; const imageUrl = galeriaImagemUrl.value; const link = galeriaLink.value; const id = galeriaId.value; if (!titulo || !imageUrl || !link) { alert('Os campos "Título", "URL da Imagem de Capa" e "Link do Álbum" são obrigatórios.'); return; } btnSalvarGaleria.disabled = true; btnSalvarGaleria.innerText = "Salvando..."; const dadosAlbum = { titulo: titulo, imageUrl: imageUrl, link: link, descricao: galeriaDescricao.value || "" }; try { if (editandoGaleria && id) { await set(ref(database, `galeria/${id}`), dadosAlbum); alert('Álbum atualizado com sucesso!'); } else { await push(dbRefGaleria, dadosAlbum); alert('Álbum salvo com sucesso!'); } resetarFormularioGaleria(); } catch (error) { console.error("Erro ao SALVAR Galeria:", error); alert("Erro ao salvar álbum. Verifique as regras do Firebase."); } finally { btnSalvarGaleria.disabled = false; btnSalvarGaleria.innerText = "Salvar Álbum"; } }); function exibirGaleria(filtro = '') { galeriaLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allGaleria).sort((a, b) => (allGaleria[a]?.titulo || '').localeCompare(allGaleria[b]?.titulo || '')); if (chavesOrdenadas.length === 0) { galeriaLista.innerHTML = '<tr><td colspan="4">Nenhum álbum cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const album = allGaleria[key]; if (filtro && !(album?.titulo || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${album?.imageUrl || 'https://via.placeholder.com/100x75.png?text=Capa'}" alt="Capa"></td> <td>${album?.titulo || ''}</td> <td><a href="${album?.link || '#'}" target="_blank">Abrir Link</a></td> <td> <button class="btn-secondary btn-editar-galeria" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-galeria" data-id="${key}">Excluir</button> </td> `; galeriaLista.appendChild(tr); } if (count === 0 && filtro) { galeriaLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefGaleria, orderByChild('titulo')), (snapshot) => { if (snapshot.exists()) { allGaleria = snapshot.val() || {}; exibirGaleria(galeriaPesquisar.value); } else { allGaleria = {}; galeriaLista.innerHTML = '<tr><td colspan="4">Nenhum álbum cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Galeria:", error); galeriaLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar álbuns. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); galeriaPesquisar.addEventListener('keyup', () => exibirGaleria(galeriaPesquisar.value)); galeriaLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-galeria')) { if (confirm(`Tem certeza que deseja excluir o álbum "${allGaleria[id]?.titulo}"?`)) { try { await remove(ref(database, `galeria/${id}`)); alert('Álbum excluído!'); } catch (error) { alert("Erro ao excluir álbum."); } } } if (target.classList.contains('btn-editar-galeria')) { const album = allGaleria[id]; if (!album) return; formGaleriaTitulo.innerText = "Editar Álbum"; galeriaId.value = id; galeriaTitulo.value = album.titulo; galeriaImagemUrl.value = album.imageUrl; galeriaLink.value = album.link; galeriaDescricao.value = album.descricao || ""; btnCancelarEdicaoGaleria.style.display = "inline-block"; editandoGaleria = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoGaleria.addEventListener('click', resetarFormularioGaleria);
+                console.log("Módulo Galeria OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Galeria:", e); }
+
+            // --- MÓDULO DE APOIADORES (NOVO) ---
+            try {
+                const formApoiadorTitulo = document.getElementById('form-apoiador-titulo'); const apoiadorId = document.getElementById('apoiador-id'); const apoiadorNome = document.getElementById('apoiador-nome'); const apoiadorImagemUrl = document.getElementById('apoiador-imagem-url'); const apoiadorEndereco = document.getElementById('apoiador-endereco'); const apoiadorTelefone = document.getElementById('apoiador-telefone'); const apoiadorLink = document.getElementById('apoiador-link'); const btnSalvarApoiador = document.getElementById('btn-salvar-apoiador'); const btnCancelarEdicaoApoiador = document.getElementById('btn-cancelar-edicao-apoiador'); const apoiadoresLista = document.getElementById('apoiadores-lista'); const apoiadorPesquisar = document.getElementById('apoiador-pesquisar'); const dbRefApoiadores = ref(database, 'apoiadores'); let allApoiadores = {}; let editandoApoiador = false; function resetarFormularioApoiador() { formApoiadorTitulo.innerText = "Adicionar Novo Apoiador"; apoiadorId.value = ""; apoiadorNome.value = ""; apoiadorImagemUrl.value = ""; apoiadorEndereco.value = ""; apoiadorTelefone.value = ""; apoiadorLink.value = ""; btnCancelarEdicaoApoiador.style.display = "none"; editandoApoiador = false; } btnSalvarApoiador.addEventListener('click', async () => { const nome = apoiadorNome.value; const id = apoiadorId.value; if (!nome) { alert('O campo "Nome" é obrigatório.'); return; } btnSalvarApoiador.disabled = true; btnSalvarApoiador.innerText = "Salvando..."; const dadosApoiador = { nome: nome, imageUrl: apoiadorImagemUrl.value || "", endereco: apoiadorEndereco.value || "", telefone: apoiadorTelefone.value || "", link: apoiadorLink.value || "" }; try { if (editandoApoiador && id) { await set(ref(database, `apoiadores/${id}`), dadosApoiador); alert('Apoiador atualizado com sucesso!'); } else { await push(dbRefApoiadores, dadosApoiador); alert('Apoiador salvo com sucesso!'); } resetarFormularioApoiador(); } catch (error) { console.error("Erro ao SALVAR Apoiador:", error); alert("Erro ao salvar apoiador. Verifique as regras do Firebase."); } finally { btnSalvarApoiador.disabled = false; btnSalvarApoiador.innerText = "Salvar Apoiador"; } }); function exibirApoiadores(filtro = '') { apoiadoresLista.innerHTML = ''; const filtroLowerCase = filtro.toLowerCase(); const chavesOrdenadas = Object.keys(allApoiadores).sort((a, b) => (allApoiadores[a]?.nome || '').localeCompare(allApoiadores[b]?.nome || '')); if (chavesOrdenadas.length === 0) { apoiadoresLista.innerHTML = '<tr><td colspan="4">Nenhum apoiador cadastrado.</td></tr>'; return; } let count = 0; for (const key of chavesOrdenadas) { const apoiador = allApoiadores[key]; if (filtro && !(apoiador?.nome || '').toLowerCase().includes(filtroLowerCase)) { continue; } count++; const tr = document.createElement('tr'); tr.innerHTML = ` <td><img src="${apoiador?.imageUrl || 'https://via.placeholder.com/100x75.png?text=Logo'}" alt="Logo"></td> <td>${apoiador?.nome || ''}</td> <td>${apoiador?.telefone || 'N/A'}</td> <td> <button class="btn-secondary btn-editar-apoiador" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-apoiador" data-id="${key}">Excluir</button> </td> `; apoiadoresLista.appendChild(tr); } if (count === 0 && filtro) { apoiadoresLista.innerHTML = `<tr><td colspan="4">Nenhum resultado para "${filtro}".</td></tr>`; } } onValue(query(dbRefApoiadores, orderByChild('nome')), (snapshot) => { if (snapshot.exists()) { allApoiadores = snapshot.val() || {}; exibirApoiadores(apoiadorPesquisar.value); } else { allApoiadores = {}; apoiadoresLista.innerHTML = '<tr><td colspan="4">Nenhum apoiador cadastrado.</td></tr>'; } }, (error) => { console.error("Erro ao LER Apoiadores:", error); apoiadoresLista.innerHTML = '<tr><td colspan="4" style="color:#ff8a8a;">Erro ao carregar apoiadores. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); apoiadorPesquisar.addEventListener('keyup', () => exibirApoiadores(apoiadorPesquisar.value)); apoiadoresLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-apoiador')) { if (confirm(`Tem certeza que deseja excluir o apoiador "${allApoiadores[id]?.nome}"?`)) { try { await remove(ref(database, `apoiadores/${id}`)); alert('Apoiador excluído!'); } catch (error) { alert("Erro ao excluir apoiador."); } } } if (target.classList.contains('btn-editar-apoiador')) { const apoiador = allApoiadores[id]; if (!apoiador) return; formApoiadorTitulo.innerText = "Editar Apoiador"; apoiadorId.value = id; apoiadorNome.value = apoiador.nome; apoiadorImagemUrl.value = apoiador.imageUrl || ""; apoiadorEndereco.value = apoiador.endereco || ""; apoiadorTelefone.value = apoiador.telefone || ""; apoiadorLink.value = apoiador.link || ""; btnCancelarEdicaoApoiador.style.display = "inline-block"; editandoApoiador = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoApoiador.addEventListener('click', resetarFormularioApoiador);
+                console.log("Módulo Apoiadores OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Apoiadores:", e); }
+
+            // --- MÓDULO DE FRASES ---
+            try {
+                const formFraseTitulo = document.getElementById('form-frase-titulo'); const fraseId = document.getElementById('frase-id'); const fraseTexto = document.getElementById('frase-texto'); const btnSalvarFrase = document.getElementById('btn-salvar-frase'); const btnCancelarEdicaoFrase = document.getElementById('btn-cancelar-edicao-frase'); const frasesLista = document.getElementById('frases-lista'); const dbRefFrases = ref(database, 'frases'); let allFrases = {}; let editandoFrase = false; function resetarFormularioFrase() { formFraseTitulo.innerText = "Adicionar Nova Frase"; fraseId.value = ""; fraseTexto.value = ""; btnCancelarEdicaoFrase.style.display = "none"; editandoFrase = false; } btnSalvarFrase.addEventListener('click', async () => { const texto = fraseTexto.value; const id = fraseId.value; if (!texto) { alert('O campo "Texto da Frase" é obrigatório.'); return; } btnSalvarFrase.disabled = true; btnSalvarFrase.innerText = "Salvando..."; const dadosFrase = { texto: texto }; try { if (editandoFrase && id) { await set(ref(database, `frases/${id}`), dadosFrase); alert('Frase atualizada com sucesso!'); } else { await push(dbRefFrases, dadosFrase); alert('Frase salva com sucesso!'); } resetarFormularioFrase(); } catch (error) { console.error("Erro ao SALVAR Frase:", error); alert("Erro ao salvar frase. Verifique as regras do Firebase."); } finally { btnSalvarFrase.disabled = false; btnSalvarFrase.innerText = "Salvar Frase"; } }); function exibirFrases() { frasesLista.innerHTML = ''; const chaves = Object.keys(allFrases); if (chaves.length === 0) { frasesLista.innerHTML = '<tr><td colspan="2">Nenhuma frase cadastrada.</td></tr>'; return; } chaves.forEach(key => { const frase = allFrases[key]; const tr = document.createElement('tr'); tr.innerHTML = ` <td class="frase-texto" title="${frase?.texto || ''}">${frase?.texto || ''}</td> <td> <button class="btn-secondary btn-editar-frase" data-id="${key}">Editar</button> <button class="btn-danger btn-excluir-frase" data-id="${key}">Excluir</button> </td> `; frasesLista.appendChild(tr); }); } onValue(dbRefFrases, (snapshot) => { if (snapshot.exists()) { allFrases = snapshot.val() || {}; exibirFrases(); } else { allFrases = {}; frasesLista.innerHTML = '<tr><td colspan="2">Nenhuma frase cadastrada.</td></tr>'; } }, (error) => { console.error("Erro ao LER Frases:", error); frasesLista.innerHTML = '<tr><td colspan="2" style="color:#ff8a8a;">Erro ao carregar frases. Verifique as Regras de Leitura do Firebase.</td></tr>'; }); frasesLista.addEventListener('click', async (e) => { const target = e.target; const id = target.getAttribute('data-id'); if (target.classList.contains('btn-excluir-frase')) { if (confirm(`Tem certeza que deseja excluir esta frase?`)) { try { await remove(ref(database, `frases/${id}`)); alert('Frase excluída!'); } catch (error) { alert("Erro ao excluir frase."); } } } if (target.classList.contains('btn-editar-frase')) { const frase = allFrases[id]; if (!frase) return; formFraseTitulo.innerText = "Editar Frase"; fraseId.value = id; fraseTexto.value = frase.texto; btnCancelarEdicaoFrase.style.display = "inline-block"; editandoFrase = true; window.scrollTo(0, 0); } }); btnCancelarEdicaoFrase.addEventListener('click', resetarFormularioFrase);
+                console.log("Módulo Frases OK.");
+            } catch(e) { console.error("Falha ao inicializar Módulo Frases:", e); }
+
+        } catch (e) {
+            console.error("FALHA CRÍTICA AO CONECTAR COM FIREBASE:", e);
+            alert("Não foi possível conectar ao Firebase. Verifique a configuração 'firebaseConfig' no script e sua conexão com a internet.");
+            const adminWrapper = document.querySelector('.admin-wrapper');
+            if (adminWrapper) adminWrapper.style.display = 'none';
+             const loginOverlay = document.getElementById('login-overlay');
+            if (loginOverlay) loginOverlay.style.display = 'flex'; 
+            const loginError = document.getElementById('login-error');
+             if (loginError) {
+                 loginError.innerText = "Erro: Falha ao conectar ao Firebase.";
+                 loginError.style.display = 'block';
+             }
         }
-        // --- FIM DO CÓDIGO DO PAINEL ADMIN ---
     </script>
 </body>
 </html>
