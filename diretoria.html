@@ -104,7 +104,7 @@
                         <p>Carregando membros...</p>
                     </div>
                 </div>
-                </div>
+            </div>
         </section>
         </main>
     
@@ -151,11 +151,17 @@
             "Colaborador"
         ];
         
+        // ===============================================
+        // AQUI ESTÁ A CORREÇÃO
+        // ===============================================
         function getRoleSortKey(role = '') {
-            const cargoBase = role.split(' ')[0]; // Pega "Conselho" de "Conselho Fiscal"
-            const index = roleOrder.indexOf(cargoBase);
-            return (index !== -1) ? index : 99; // Joga cargos desconhecidos para o final
+            // Procura a string EXATA na lista de ordem
+            const index = roleOrder.indexOf(role); 
+            // Se "Presidente" for 0, "Vice" for 1, etc.
+            // Se não encontrar (ex: cargo vazio), joga para o final (99).
+            return (index !== -1) ? index : 99;
         }
+        // ===============================================
 
         // Referência do HTML
         const container = document.getElementById('diretoria-container');
@@ -183,7 +189,7 @@
                     membrosArray.push(childSnapshot.val());
                 });
 
-                // --- ORDENAÇÃO POR CARGO ---
+                // --- ORDENAÇÃO POR CARGO (Usando a função corrigida) ---
                 membrosArray.sort((a, b) => {
                     const cargoA = getRoleSortKey(a.cargo);
                     const cargoB = getRoleSortKey(b.cargo);
